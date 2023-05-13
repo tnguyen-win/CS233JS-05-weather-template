@@ -1,102 +1,96 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+.text-bg-secondary {
+	background-color: #363B3F !important;
+}
 
 .flex-parent {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 body {
-  background: #1db3f9;
-  padding: 20px;
-  font-family: 'Roboto', sans-serif;
+	padding: 20px;
+	font-family: "Roboto", sans-serif;
 }
 
 .zip-form {
-  padding: 15px;
-  border: 2px solid #000;
-  border-radius: 20px;
-  background-color: #fff;
+	padding: 15px;
 }
 
 .zip-form label {
-    margin-top: 7px;
-    vertical-align: middle;
+	margin-top: 7px;
+	vertical-align: middle;
 }
 
 .zip-form input {
-    width: 20%;
-    margin: 0 10px;
-    font-size: 20px;
-    vertical-align: middle;
+	width: 20%;
+	margin: 0 10px;
+	font-size: 20px;
+	vertical-align: middle;
 }
 
 .zip-form button {
-    padding: 7px 10px;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 5px;
+	padding: 7px 10px;
+}
+
+.zip-form button:hover {
+	background-color: inherit;
+	color: var(--bs-primary);
 }
 
 .weather-list {
-  margin: 20px 0;
+	margin: 20px 0;
 }
 
 .weather-list-item {
-  min-width: 100px;
-  margin: 0 10px;
-  padding: 10px;
-  border: 2px solid #000;
-  border-radius: 20px;
-  background-color: #fff;
-  text-align: center;
-  cursor: pointer;
+	min-width: 100px;
+	margin: 0 10px;
+	padding: 10px;
+	text-align: center;
+	cursor: pointer;
 }
 
-  .weather-list-item :first-child {
-    margin-left: 0;
-  }
+.weather-list-item :first-child {
+	margin-left: 0;
+}
 
-  .weather-list-item :last-child {
-    margin-right: 0;
-  }
+.weather-list-item :last-child {
+	margin-right: 0;
+}
 
-  .weather-list-item > h3 {
-    font-weight: normal;
-  }
+.weather-list-item>h3 {
+	font-weight: normal;
+}
 
 .current-day {
-  box-sizing: border-box;
-  padding: 20px;
-  padding-top: 0;
-  border: 2px solid #000;
-  border-radius: 20px;
-  background-color: #fff;
+	padding: 20px;
+	padding-top: 0;
 }
 
 .details {
-  justify-content: flex-start;
+	justify-content: flex-start;
 }
-  .details > div {
-    padding-left: 20px;
-  }
 
-  .details > div :first-child {
-    padding-left: 0;
-  }
+.details>div {
+	padding-left: 20px;
+}
+
+.details>div :first-child {
+	padding-left: 0;
+}
 
 .weather {
-  font-size: 30px;
-  line-height: 1.4;
+	font-size: 30px;
+	line-height: 1.4;
 }
-    
-  .weather p {
-      margin: 0;
-  }
 
-  .weather img {
-      vertical-align: middle;
-  }
+.weather p {
+	margin: 0;
+}
 
-
+.weather img {
+	vertical-align: middle;
+}
