@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 import parseForecast from './weatherParsing';
-import { WeatherList, CurrentDay } from './components';
+import WeatherList from './components';
 
 const regeneratorRuntime = require('regenerator-runtime');
 

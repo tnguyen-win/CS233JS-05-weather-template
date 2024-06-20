@@ -10,7 +10,7 @@ const WeatherListItem = function (wD, i) {
     `;
 };
 
-export const CurrentDay = function (i) {
+const CurrentDay = function (i) {
     this.$currentDay.classList.remove('d-none');
     this.$dayHeader.innerHTML = `${getWeekday(this.state.forecast[i].dt)} in ${this.state.city.name}`;
     this.$weather.innerHTML = `
@@ -33,10 +33,12 @@ export const CurrentDay = function (i) {
 		`;
 };
 
-export const WeatherList = function (wD) {
+const WeatherList = function (wD) {
     const weatherItems = document.getElementsByClassName('weather-list-item');
 
     this.$weatherList.innerHTML = wD.reduce((h, w) => h += this.renderWeatherListItem(wD, wD.indexOf(w)), '');
 
     for (let w in weatherItems) if (weatherItems[w].tagName === 'DIV') weatherItems[w].onclick = () => this.renderCurrentDay(w);
 };
+
+export default WeatherList;
