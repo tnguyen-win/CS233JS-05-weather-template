@@ -1,4 +1,3 @@
-/* jshint esversion: 6 */
 export function getDate(unixTimestamp, timezoneOffset) {
     return new Date((unixTimestamp - timezoneOffset) * 1000);
 }

@@ -1,4 +1,4 @@
-import { getWeekday, getDate } from './dates';
+import { getWeekday } from './dates';
 
 const WeatherListItem = function (wD, i) {
     return `

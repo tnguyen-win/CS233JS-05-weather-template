@@ -1,8 +1,5 @@
-/* jshint esversion: 6 */
 import parseForecast from './weatherParsing';
 import WeatherList from './view';
-
-const regeneratorRuntime = require('regenerator-runtime');
 
 export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
@@ -80,7 +77,7 @@ export default class Controller {
         // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
         fetch(geocodeUrl)
             .then(resp => resp.json())
-            .then(_ => {
+            .then(() => {
                 // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
                 fetch(forecastUrl)
                     .then(resp => resp.json())
@@ -88,7 +85,7 @@ export default class Controller {
                         WeatherList(this.$weatherList, parseForecast(data.list, data.city.timezone), this.$currentDay, this.$dayHeader, _name, this.$weather, this.$temperatureBreakdown, this.$miscDetails);
 
                         this.clearCurrentDay();
-                    })
-            })
+                    });
+            });
     }
 }

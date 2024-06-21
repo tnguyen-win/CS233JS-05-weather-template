@@ -1,9 +1,6 @@
-/* jshint esversion: 6 */
-function getIndexOfMidnight(firstDate, timezoneOffset) {
+function getIndexOfMidnight(firstDate) {
     let dt = firstDate * 1000;
     let date = new Date(dt);
-    //let utcHours = date.getUTCHours();
-    //let localHours = utcHours + timezoneOffset;
     let localHours = date.getHours();
     let firstMidnightIndex = (localHours > 2) ? Math.round((24 - localHours) / 3) : Math.abs(Math.round(localHours / 3));
 
@@ -38,12 +35,10 @@ export default function parseForecast(forecast, timezoneOffset) {
     const EVENING = SIXPM;
     const NIGHT = NINEPM;
     const PERDAY = 8;
-    // const DAYS = 4;
 
     for (let i = MIDNIGHT; i < forecast.length - NINEPM; i += PERDAY) {
         let oneDay = {};
 
-        //oneDay.dt = forecast[i + NOON].dt;
         oneDay.dt = new Date(forecast[i + NOON].dt * 1000);
         oneDay.temp = forecast[i + NOON].main.temp;
         oneDay.minTemp = findMinTemp(forecast, i);
