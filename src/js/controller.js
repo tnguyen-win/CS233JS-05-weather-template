@@ -50,6 +50,12 @@ export default class Controller {
         return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
     }
 
+    getForecast(lat, lon) {
+        let forecastUrl = this.getForecastUrl(lat, lon, this.apiKey);
+
+        return fetch(forecastUrl).then(resp => resp.json());
+    }
+
     clearCurrentDay() {
         this.$form.reset();
         this.$currentDay.classList.add('d-none');
@@ -62,30 +68,20 @@ export default class Controller {
         let form = e.target;
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
-        let geocodeUrl = this.getGeocodeUrl(zipCode, 'US', this.apiKey);
-        let _name;
-        let lat;
-        let lon;
-        const resp = await this.getCoordinates(zipCode, 'US');
 
-        _name = resp.name;
-        lat = resp.lat;
-        lon = resp.lon;
+        this.getCoordinates(zipCode, 'US')
+            .then(loc => {
+                let forecast = this.getForecast(loc.lat, loc.lon);
 
-        let forecastUrl = this.getForecastUrl(lat, lon, this.apiKey);
+                return [forecast, loc];
+            })
+            .then(forecastAndLoc => {
+                let forecast, loc;
 
-        // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
-        fetch(geocodeUrl)
-            .then(resp => resp.json())
-            .then(() => {
-                // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
-                fetch(forecastUrl)
-                    .then(resp => resp.json())
-                    .then(data => {
-                        WeatherList(this.$weatherList, parseForecast(data.list, data.city.timezone), this.$currentDay, this.$dayHeader, _name, this.$weather, this.$temperatureBreakdown, this.$miscDetails);
+                [forecast, loc] = forecastAndLoc;
 
-                        this.clearCurrentDay();
-                    });
-            });
+                WeatherList(this.$weatherList, parseForecast(forecast.list, forecast.city.timezone), this.$currentDay, this.$dayHeader, loc.name, this.$weather, this.$temperatureBreakdown, this.$miscDetails);
+            })
+            .then(() => this.clearCurrentDay());
     }
 }
