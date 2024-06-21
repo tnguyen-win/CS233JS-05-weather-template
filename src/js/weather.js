@@ -13,13 +13,6 @@ export default class Weather {
     static FORECAST_ENDPOINT = 'data/' + Weather.FORECAST_VERSION + '/forecast';
 
     constructor() {
-        this.state = {
-            timezoneOffset: 0,
-            zipCode: '',
-            city: {},
-            forecast: [],
-            selectedDate: null
-        };
         // this.weatherURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + FORECAST_ENDPOINT + '?units=imperial&';
         // this.geoURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + GEOCODE_ENDPOINT + '?';
         // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
@@ -60,18 +53,25 @@ export default class Weather {
         return 'https://' + Weather.OPEN_WEATHER_MAP_DOMAIN + '/' + Weather.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
     }
 
+    clearCurrentDay() {
+        this.$form.reset();
+        this.$currentDay.classList.add('d-none');
+        this.$dayHeader.innerHTML = '';
+    }
+
     async onFormSubmit(e) {
         e.preventDefault();
 
         let form = e.target;
         let data = new FormData(form);
-        // this.state.zipCode = this.$zipCode.value;
         let zipCode = data.get('zipCode');
         let geocodeUrl = this.getGeocodeUrl(zipCode, 'US', this.apiKey);
+        let _name;
         let lat;
         let lon;
         const resp = await this.getCoordinates(zipCode, 'US');
 
+        _name = resp.name;
         lat = resp.lat;
         lon = resp.lon;
 
@@ -79,41 +79,16 @@ export default class Weather {
 
         // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
         fetch(geocodeUrl)
-            // .then(resp => resp.ok ? resp.json() : (() => { throw new Error(resp.status); })())
             .then(resp => resp.json())
-            // .then(resp => console.log(typeof (resp)))
             .then(_ => {
                 // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
                 fetch(forecastUrl)
-                    // .then(resp => resp.ok ? resp.json() : (() => { throw new Error(resp.status); })())
                     .then(resp => resp.json())
-                    // .then(resp => console.log(typeof (resp)))
                     .then(data => {
-                        // this.state.timezoneOffset = d2.timezoneOffset;
-                        // this.state.forecast = parseForecast(d2.list, this.timezoneOffset);
-                        // console.log(data);
-                        // console.log(data.city.timezone);
-                        // console.log(parseForecast(data.list, data.city.timezone));
-                        // this.renderWeatherList(this.state.forecast);
-                        // WeatherList(parseForecast(data.list, data.city.timezone));
-                        // this.$form.reset();
-                        // this.clearCurrentDay();
-                    })
-                // .catch(e => {
-                //     alert('There was a problem getting information. See the console for further details.');
-                //     console.log(`#2 | FETCH ERROR: ${e}`);
-                //     // console.log(`#2 | ${this.getForecastUrl(this.state.city.lat, this.state.city.lon, this.apiKey)}`);
-                // });
-            })
-        // .catch(e => {
-        //     alert('There was a problem getting information. See the console for further details.');
-        //     console.log(`#1 | FETCH ERROR: ${e}`);
-        //     // console.log(`#1 | ${this.getGeocodeUrl(this.state.zipCode, 'US', this.apiKey)}`);
-        // });
-    }
+                        WeatherList(this.$weatherList, parseForecast(data.list, data.city.timezone), this.$currentDay, this.$dayHeader, _name, this.$weather, this.$temperatureBreakdown, this.$miscDetails);
 
-    clearCurrentDay() {
-        this.$currentDay.classList.add('d-none');
-        this.$dayHeader.innerHTML = '';
+                        this.clearCurrentDay();
+                    })
+            })
     }
 }

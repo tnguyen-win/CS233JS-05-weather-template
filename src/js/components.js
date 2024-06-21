@@ -10,35 +10,49 @@ const WeatherListItem = function (wD, i) {
     `;
 };
 
-const CurrentDay = function (i) {
-    this.$currentDay.classList.remove('d-none');
-    this.$dayHeader.innerHTML = `${getWeekday(this.state.forecast[i].dt)} in ${this.state.city.name}`;
-    this.$weather.innerHTML = `
-		<p>
-			<img src='https://openweathermap.org/img/w/04d.png' alt='Forecast icon' />
-			&nbsp;
-			${this.state.forecast[i].description}
-		</p>
-		`;
-    this.$temperatureBreakdown.innerHTML = `
-		<p>Morning Temperature: ${this.state.forecast[i].morningTemp}&deg;F</p>
-		<p>Day Temperature: ${this.state.forecast[i].dayTemp}&deg;F</p>
-		<p>Evening Temperature: ${this.state.forecast[i].eveningTemp}&deg;F</p>
-		<p>Night Temperature: ${this.state.forecast[i].nightTemp}&deg;F</p>
-		`;
-    this.$miscDetails.innerHTML = `
-		<p>Atmospheric Pressure: ${this.state.forecast[i].pressure} hPa</p>
-		<p>Humidity: ${this.state.forecast[i].humidity}%</p>
-		<p>Wind Speed: ${this.state.forecast[i].wind} mph</p>
-		`;
+const CurrentDay = function ($currentDay, $dayHeader, forecast, i, _name, $weather, $temperatureBreakdown, $miscDetails) {
+    $currentDay.classList.remove('d-none');
+    $dayHeader.innerHTML = `${getWeekday(forecast[i].dt)} in ${_name}`;
+    $weather.innerHTML = `
+    <p>
+        <img src='https://openweathermap.org/img/w/04d.png' alt='Forecast icon.' />
+        &nbsp;
+        ${forecast[i].description}
+    </p>
+    `;
+    $temperatureBreakdown.innerHTML = `
+    <p>
+        Morning Temperature: ${forecast[i].morningTemp}&deg;F
+    </p>
+    <p>
+        Day Temperature: ${forecast[i].dayTemp}&deg;F
+    </p>
+    <p>
+        Evening Temperature: ${forecast[i].eveningTemp}&deg;F
+    </p>
+    <p>
+        Night Temperature: ${forecast[i].nightTemp}&deg;F
+    </p>
+    `;
+    $miscDetails.innerHTML = `
+    <p>
+        Atmospheric Pressure: ${forecast[i].pressure} hPa
+    </p>
+    <p>
+        Humidity: ${forecast[i].humidity}%
+    </p>
+    <p>
+        Wind Speed: ${forecast[i].wind} mph
+    </p>
+    `;
 };
 
-const WeatherList = function (wD) {
-    const weatherItems = document.getElementsByClassName('weather-list-item');
+const WeatherList = function ($weatherList, forecast, $currentDay, $dayHeader, _name, $weather, $temperatureBreakdown, $miscDetails) {
+    const $weatherItems = document.getElementsByClassName('weather-list-item');
 
-    this.$weatherList.innerHTML = wD.reduce((h, w) => h += this.renderWeatherListItem(wD, wD.indexOf(w)), '');
+    $weatherList.innerHTML = forecast.reduce((data, i) => data += WeatherListItem(forecast, forecast.indexOf(i)), '');
 
-    for (let w in weatherItems) if (weatherItems[w].tagName === 'DIV') weatherItems[w].onclick = () => this.renderCurrentDay(w);
+    for (let i in $weatherItems) if ($weatherItems[i].tagName === 'DIV') $weatherItems[i].onclick = () => CurrentDay($currentDay, $dayHeader, forecast, i, _name, $weather, $temperatureBreakdown, $miscDetails);
 };
 
 export default WeatherList;
