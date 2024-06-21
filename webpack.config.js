@@ -6,7 +6,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     mode: 'development',
     entry: {
-        general: './src/js/general.js',
+        app: './src/js/app.js',
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -52,7 +52,7 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugin({
             template: path.resolve(__dirname, "./src/index.html"),
-            chunks: ["general"],
+            chunks: ["app"],
             inject: "body",
             filename: "index.html",
         }),

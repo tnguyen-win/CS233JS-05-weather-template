@@ -1,16 +1,16 @@
 /* jshint esversion: 6 */
 import parseForecast from './weatherParsing';
-import WeatherList from './components';
+import WeatherList from './view';
 
 const regeneratorRuntime = require('regenerator-runtime');
 
-export default class Weather {
+export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
     static API_KEY = '';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
-    static GEOCODE_ENDPOINT = 'geo/' + Weather.GEOCODE_VERSION + '/zip';
-    static FORECAST_ENDPOINT = 'data/' + Weather.FORECAST_VERSION + '/forecast';
+    static GEOCODE_ENDPOINT = 'geo/' + Controller.GEOCODE_VERSION + '/zip';
+    static FORECAST_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/forecast';
 
     constructor() {
         // this.weatherURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + FORECAST_ENDPOINT + '?units=imperial&';
@@ -35,22 +35,22 @@ export default class Weather {
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
     getGeocodeUrl(zipCode, country, apiKey) {
-        return 'https://' + Weather.OPEN_WEATHER_MAP_DOMAIN + '/' + Weather.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + apiKey;
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + apiKey;
     }
 
     getCoordinates(zipCode, country) {
         // async getCoordinates(zipCode, country) {
         let geocodeUrl = this.getGeocodeUrl(zipCode, country, this.apiKey);
-        //     const resp = await fetch(geocodeUrl);
+        // const resp = await fetch(geocodeUrl);
 
         return fetch(geocodeUrl).then(resp => resp.json());
-        //     return await resp.json();
+        // return await resp.json();
     }
 
     // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
 
     getForecastUrl(lat, lon, apiKey) {
-        return 'https://' + Weather.OPEN_WEATHER_MAP_DOMAIN + '/' + Weather.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
     }
 
     clearCurrentDay() {
