@@ -1,58 +1,54 @@
 import { getWeekday } from './dates';
 
-const WeatherListItem = function (wD, i) {
+export const DayForecastSummary = function(day, i) {
+    // export const DayForecastSummary = function(day) {
     return `
         <div class='weather-list-item d-inline-block text-bg-secondary border border-light' style='--bs-border-opacity: 0.1875;' data-index='${i}'>
-            <h2>${wD[i].dt.getMonth()} / ${wD[i].dt.getDate()}</h2>
-            <h3>${getWeekday(wD[i].dt)}</h3>
-            <h3>${wD[i].minTemp}&deg;F | ${wD[i].maxTemp}&deg;F</h3>
+            <h2>${day.dt.getMonth()} / ${day.dt.getDate()}</h2>
+            <h3>${getWeekday(day.dt)}</h3>
+            <h3>${day.minTemp}&deg;F | ${day.maxTemp}&deg;F</h3>
         </div>
     `;
 };
 
-const CurrentDay = function ($currentDay, $dayHeader, forecast, i, _name, $weather, $temperatureBreakdown, $miscDetails) {
-    $currentDay.classList.remove('d-none');
-    $dayHeader.innerHTML = `${getWeekday(forecast[i].dt)} in ${_name}`;
-    $weather.innerHTML = `
-    <p>
-        <img src='https://openweathermap.org/img/w/04d.png' alt='Forecast icon.' />
-        &nbsp;
-        ${forecast[i].description}
-    </p>
-    `;
-    $temperatureBreakdown.innerHTML = `
-    <p>
-        Morning Temperature: ${forecast[i].morningTemp}&deg;F
-    </p>
-    <p>
-        Day Temperature: ${forecast[i].dayTemp}&deg;F
-    </p>
-    <p>
-        Evening Temperature: ${forecast[i].eveningTemp}&deg;F
-    </p>
-    <p>
-        Night Temperature: ${forecast[i].nightTemp}&deg;F
-    </p>
-    `;
-    $miscDetails.innerHTML = `
-    <p>
-        Atmospheric Pressure: ${forecast[i].pressure} hPa
-    </p>
-    <p>
-        Humidity: ${forecast[i].humidity}%
-    </p>
-    <p>
-        Wind Speed: ${forecast[i].wind} mph
-    </p>
+export const ForecastDetails = function(forecast, i, _name) {
+    return `
+    <h1 class="day-header">
+        ${getWeekday(forecast[i].dt)} in ${_name}
+    </h1>
+    <div class="weather">
+        <p>
+            <img src="https://openweathermap.org/img/w/04d.png" alt="Forecast icon." />
+            &nbsp;
+            ${forecast[i].description}
+        </p>
+    </div>
+    <div class="details">
+        <div class="temperature-breakdown">
+            <p>
+                Morning Temperature: ${forecast[i].morningTemp}&deg;F
+            </p>
+            <p>
+                Day Temperature: ${forecast[i].dayTemp}&deg;F
+            </p>
+            <p>
+                Evening Temperature: ${forecast[i].eveningTemp}&deg;F
+            </p>
+            <p>
+                Night Temperature: ${forecast[i].nightTemp}&deg;F
+            </p>
+        </div>
+        <div class="misc-details">
+            <p>
+                Atmospheric Pressure: ${forecast[i].pressure} hPa
+            </p>
+            <p>
+                Humidity: ${forecast[i].humidity}%
+            </p>
+            <p>
+                Wind Speed: ${forecast[i].wind} mph
+            </p>
+        </div>
+    </div>
     `;
 };
-
-const WeatherList = function ($weatherList, forecast, $currentDay, $dayHeader, _name, $weather, $temperatureBreakdown, $miscDetails) {
-    const $weatherItems = document.getElementsByClassName('weather-list-item');
-
-    $weatherList.innerHTML = forecast.reduce((data, i) => data += WeatherListItem(forecast, forecast.indexOf(i)), '');
-
-    for (let i in $weatherItems) if ($weatherItems[i].tagName === 'DIV') $weatherItems[i].onclick = () => CurrentDay($currentDay, $dayHeader, forecast, i, _name, $weather, $temperatureBreakdown, $miscDetails);
-};
-
-export default WeatherList;

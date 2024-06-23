@@ -1,5 +1,6 @@
 import parseForecast from './weatherParsing';
 import WeatherList from './view';
+import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
@@ -18,12 +19,13 @@ export default class Controller {
 
         this.$form = document.querySelector('#zipForm');
         this.$zipCode = document.querySelector('#zipCode');
-        this.$weatherList = document.querySelector('#weatherList');
-        this.$currentDay = document.querySelector('#currentDay');
-        this.$dayHeader = document.querySelector('.day-header');
-        this.$weather = document.querySelector('.weather');
-        this.$temperatureBreakdown = document.querySelector('.temperature-breakdown');
-        this.$miscDetails = document.querySelector('.misc-details');
+        this.$forecastSummaries = document.querySelector('#forecast-summaries');
+        this.$forecastDetails = document.querySelector('#forecast-details');
+        // this.$dayHeader = document.querySelector('.day-header');
+        // this.$weather = document.querySelector('.weather');
+        // this.$weatherItems = document.getElementsByClassName('weather-list-item');
+        // this.$temperatureBreakdown = document.querySelector('.temperature-breakdown');
+        // this.$miscDetails = document.querySelector('.misc-details');
 
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$form.addEventListener('submit', this.onFormSubmit);
@@ -46,6 +48,9 @@ export default class Controller {
 
     // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
 
+    // addParam()
+    // toString()
+
     getForecastUrl(lat, lon, apiKey) {
         return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
     }
@@ -56,32 +61,56 @@ export default class Controller {
         return fetch(forecastUrl).then(resp => resp.json());
     }
 
+    // WIP
+
     clearCurrentDay() {
         this.$form.reset();
-        this.$currentDay.classList.add('d-none');
+        this.$forecastDetails.classList.add('d-none');
         this.$dayHeader.innerHTML = '';
     }
 
-    async onFormSubmit(e) {
+    onFormSubmit(e) {
         e.preventDefault();
 
         let form = e.target;
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
+        let locale = 'US';
 
-        this.getCoordinates(zipCode, 'US')
+        this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let forecast = this.getForecast(loc.lat, loc.lon);
+                let data = this.getForecast(loc.lat, loc.lon);
 
-                return [forecast, loc];
+                return Promise.all([data, loc]);
             })
             .then(forecastAndLoc => {
-                let forecast, loc;
+                let data, loc;
 
-                [forecast, loc] = forecastAndLoc;
+                [data, loc] = forecastAndLoc;
 
-                WeatherList(this.$weatherList, parseForecast(forecast.list, forecast.city.timezone), this.$currentDay, this.$dayHeader, loc.name, this.$weather, this.$temperatureBreakdown, this.$miscDetails);
+                // let forecast = new WeatherForecast(data);
+
+                // for (var day of forecast.getDays()) {
+                //     let summaryHtml = day.getSummary();
+
+                //     this.$forecastSummaries.innerHTML += summaryHtml;
+                // }
+
+                let root = new ForecastSummary(parseForecast(data.list, data.city.timezone), loc.name);
+
+                this.$forecastSummaries.innerHTML = root.render();
+
+                // for (let i in $weatherItems) {
+                //     if ($weatherItems[i].tagName === 'DIV') {
+                //         $weatherItems[i].onclick = () => {
+                //             $forecastDetails.classList.remove('d-none');
+                //             $forecastDetails.innerHTML = ForecastDetails(forecast, i, city);
+                //         }
+                //     }
+                // }
+
+                // WeatherList(this.$forecastSummaries, parseForecast(data.list, data.city.timezone), this.$forecastDetails, loc.name);
             })
-            .then(() => this.clearCurrentDay());
+        // .then(() => this.clearCurrentDay());
     }
 }
