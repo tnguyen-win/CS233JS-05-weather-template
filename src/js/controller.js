@@ -32,13 +32,13 @@ export default class Controller {
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
-    getGeocodeUrl(zipCode, country, apiKey) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + apiKey;
+    getGeocodeUrl(zipCode, country) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + this.apiKey;
     }
 
     getCoordinates(zipCode, country) {
         // async getCoordinates(zipCode, country) {
-        let geocodeUrl = this.getGeocodeUrl(zipCode, country, this.apiKey);
+        let geocodeUrl = this.getGeocodeUrl(zipCode, country);
         // const resp = await fetch(geocodeUrl);
 
         return fetch(geocodeUrl).then(resp => resp.json());
@@ -50,14 +50,17 @@ export default class Controller {
     // addParam()
     // toString()
 
-    getForecastUrl(lat, lon, apiKey) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + apiKey;
+    getForecastUrl(lat, lon) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + this.apiKey;
     }
 
     getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon, this.apiKey);
+        // async getForecast(lat, lon) {
+        let forecastUrl = this.getForecastUrl(lat, lon);
+        // const resp = await fetch(forecastUrl);
 
         return fetch(forecastUrl).then(resp => resp.json());
+        // return await resp.json();
     }
 
     // WIP
