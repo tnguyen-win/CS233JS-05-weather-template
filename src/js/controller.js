@@ -1,5 +1,5 @@
 import parseForecast from './weatherParsing';
-import WeatherList from './view';
+// import WeatherList from './view';
 import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
@@ -66,7 +66,6 @@ export default class Controller {
     clearCurrentDay() {
         this.$form.reset();
         this.$forecastDetails.classList.add('d-none');
-        this.$dayHeader.innerHTML = '';
     }
 
     onFormSubmit(e) {
@@ -99,6 +98,8 @@ export default class Controller {
                 let root = new ForecastSummary(parseForecast(data.list, data.city.timezone), loc.name);
 
                 this.$forecastSummaries.innerHTML = root.render();
+                root.assignEventHandlers(this.$forecastDetails);
+
 
                 // for (let i in $weatherItems) {
                 //     if ($weatherItems[i].tagName === 'DIV') {
@@ -111,6 +112,6 @@ export default class Controller {
 
                 // WeatherList(this.$forecastSummaries, parseForecast(data.list, data.city.timezone), this.$forecastDetails, loc.name);
             })
-        // .then(() => this.clearCurrentDay());
+            .then(() => this.clearCurrentDay());
     }
 }

@@ -1,4 +1,4 @@
-import { DayForecastSummary } from '../view';
+import { DayForecastSummary, ForecastDetails } from '../view';
 
 export default class ForecastSummary {
     // constructor($weatherList, forecast, $forecastDetails, city) {
@@ -7,6 +7,17 @@ export default class ForecastSummary {
         // parseForecast(data.list, data.city.timezone)
         this.forecast = forecast;
         this.city = city;
+    }
+
+    assignEventHandlers($forecastDetails) {
+        const $weatherItems = document.getElementsByClassName('weather-list-item');
+
+        for (let i in $weatherItems) if ($weatherItems[i].tagName === "DIV") {
+            $weatherItems[i].onclick = () => {
+                $forecastDetails.innerHTML = ForecastDetails(this.forecast, i, this.city);
+                $forecastDetails.classList.remove('d-none');
+            }
+        }
     }
 
     render() {
