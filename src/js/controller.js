@@ -22,12 +22,12 @@ export default class Controller {
         this.$forecastDetails = document.querySelector('#forecast-details');
         // this.$dayHeader = document.querySelector('.day-header');
         // this.$weather = document.querySelector('.weather');
-        // this.$weatherItems = document.getElementsByClassName('weather-list-item');
+        this.$weatherItems = document.getElementsByClassName('weather-list-item');
         // this.$temperatureBreakdown = document.querySelector('.temperature-breakdown');
         // this.$miscDetails = document.querySelector('.misc-details');
 
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.$form.addEventListener('submit', this.onFormSubmit);
+        this.$form.onsubmit = e => this.onFormSubmit(e);
     }
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
@@ -96,9 +96,13 @@ export default class Controller {
 
                 let root = new ForecastSummary(parseForecast(data.list, data.city.timezone), loc.name);
 
-                this.$forecastSummaries.innerHTML = root.render();
+                // #1 + #2 | Assign event handlers.
 
-                root.assignEventHandlers(this.$forecastDetails);
+                this.$forecastSummaries.innerHTML = root.render(this.$forecastDetails);
+
+                // #2 | Assign event handlers.
+
+                // root.assignEventHandlers(this.$weatherItems, this.$forecastDetails);
 
                 // WeatherList(this.$forecastSummaries, parseForecast(data.list, data.city.timezone), this.$forecastDetails, loc.name);
             })

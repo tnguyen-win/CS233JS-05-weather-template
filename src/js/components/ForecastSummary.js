@@ -15,16 +15,31 @@ export default class ForecastSummary {
         Read the element that was clicked via passed with **e.target.dataset.index**.
     */
 
-    assignEventHandlers($forecastDetails) {
-        const $weatherItems = document.getElementsByClassName('weather-list-item');
+    // #2 | Assign event handlers.
 
-        for (let i in $weatherItems) if ($weatherItems[i].tagName === 'DIV') {
-            $weatherItems[i].onclick = () => {
-                $forecastDetails.innerHTML = ForecastDetails(this.forecast, i, this.city);
+    // assignEventHandlers($weatherItems, $forecastDetails) {
+    //     for (let i in $weatherItems) if ($weatherItems[i].tagName === 'DIV') {
+    //         $weatherItems[i].onclick = () => {
+    //             $forecastDetails.innerHTML = ForecastDetails(this.forecast, i, this.city);
+    //             $forecastDetails.classList.remove('d-none');
+    //         };
+    //     }
+    // }
+
+    render($forecastDetails) {
+        // #1 | Assign event handlers.
+        document.onclick = e => {
+            const summary = e.target.parentElement;
+            const dataType = 'data-index';
+
+            if (summary.hasAttribute(dataType)) {
+                $forecastDetails.innerHTML = ForecastDetails(this.forecast, summary.getAttribute(dataType), this.city);
                 $forecastDetails.classList.remove('d-none');
-            };
-        }
-    }
+            }
+        };
 
-    render = () => this.forecast.map((day, i) => DayForecastSummary(day, i)).join('\n');
+        // #1 + #2 | Assign event handlers.
+
+        return this.forecast.map((day, i) => DayForecastSummary(day, i)).join('\n');
+    };
 }
