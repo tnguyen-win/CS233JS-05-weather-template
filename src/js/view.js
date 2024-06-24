@@ -1,7 +1,6 @@
 import { getWeekday } from './dates';
 
 export const DayForecastSummary = function(day, i) {
-    // export const DayForecastSummary = function(day) {
     return `
         <div class='weather-list-item d-inline-block text-bg-secondary border border-light' style='--bs-border-opacity: 0.1875;' data-index='${i}'>
             <h2>${day.dt.getMonth()} / ${day.dt.getDate()}</h2>

@@ -1,21 +1,20 @@
 import parseForecast from './weatherParsing';
-// import WeatherList from './view';
 import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
-    static API_KEY = '';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
     static GEOCODE_ENDPOINT = 'geo/' + Controller.GEOCODE_VERSION + '/zip';
     static FORECAST_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/forecast';
+    static API_KEY = process.env.API_KEY;
 
     constructor() {
         // this.weatherURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + FORECAST_ENDPOINT + '?units=imperial&';
         // this.geoURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + GEOCODE_ENDPOINT + '?';
         // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
         // this.geoURL = 'https://api.openweathermap.org/geo/1.0/zip?';
-        this.apiKey = process.env.API_KEY;
+        this.apiKey = Controller.API_KEY;
 
         this.$form = document.querySelector('#zipForm');
         this.$zipCode = document.querySelector('#zipCode');
@@ -98,17 +97,8 @@ export default class Controller {
                 let root = new ForecastSummary(parseForecast(data.list, data.city.timezone), loc.name);
 
                 this.$forecastSummaries.innerHTML = root.render();
+
                 root.assignEventHandlers(this.$forecastDetails);
-
-
-                // for (let i in $weatherItems) {
-                //     if ($weatherItems[i].tagName === 'DIV') {
-                //         $weatherItems[i].onclick = () => {
-                //             $forecastDetails.classList.remove('d-none');
-                //             $forecastDetails.innerHTML = ForecastDetails(forecast, i, city);
-                //         }
-                //     }
-                // }
 
                 // WeatherList(this.$forecastSummaries, parseForecast(data.list, data.city.timezone), this.$forecastDetails, loc.name);
             })
