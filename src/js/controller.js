@@ -15,7 +15,7 @@ export default class Controller {
         // this.geoURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + GEOCODE_ENDPOINT + '?';
         // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
         // this.geoURL = 'https://api.openweathermap.org/geo/1.0/zip?';
-        this.apiKey = 'appid=436318b3f99b10952c06599c1755c123';
+        this.apiKey = process.env.API_KEY;
 
         this.$form = document.querySelector('#zipForm');
         this.$zipCode = document.querySelector('#zipCode');
