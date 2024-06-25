@@ -1,44 +1,40 @@
-import { DayForecastSummary, ForecastDetails } from '../view';
+// import { data } from 'autoprefixer';
+// import { DayForecastSummary, ForecastDetails } from '../view';
+import Component from './Component';
+import DayForecastSummary from './DayForecastSummary';
+import ForecastDetails from './ForecastDetails';
+import parseForecast from '../weatherParsing';
 
-export default class ForecastSummary {
+export default class ForecastSummary extends Component {
     // constructor($weatherList, forecast, $forecastDetails, city) {
-    constructor(forecast, city) {
+    constructor(data, city) {
+        super();
+
         // Accepts forecast.
         // parseForecast(data.list, data.city.timezone)
-        this.forecast = forecast;
+        this.forecast = parseForecast(data.list, data.city.timezone);
         this.city = city;
+
+        // let forecast = new WeatherForecast(data);
+
+        // for (var day of forecast.getDays()) {
+        //     let summaryHtml = day.getSummary();
+
+        //     this.$forecastSummaries.innerHTML += summaryHtml;
+        // }
     }
 
-    /*
-        Don't write inline event handlers. Use event delegation.
-        Can use HTML data attributes.
-        Read the element that was clicked via passed with **e.target.dataset.index**.
-    */
+    render($forecastSummaries, $forecastDetails) {
+        const displayForecastDetails = data => {
+            const index = data.index;
 
-    // #2 | Assign event handlers.
+            if (!index) return false;
 
-    // assignEventHandlers($weatherItems, $forecastDetails) {
-    //     for (let i in $weatherItems) if ($weatherItems[i].tagName === 'DIV') {
-    //         $weatherItems[i].onclick = () => {
-    //             $forecastDetails.innerHTML = ForecastDetails(this.forecast, i, this.city);
-    //             $forecastDetails.classList.remove('d-none');
-    //         };
-    //     }
-    // }
-
-    render($forecastDetails) {
-        // #1 | Assign event handlers.
-        document.onclick = e => {
-            const summary = e.target.parentElement;
-            const dataType = 'data-index';
-
-            if (summary.hasAttribute(dataType)) {
-                $forecastDetails.innerHTML = ForecastDetails(this.forecast, summary.getAttribute(dataType), this.city);
-                $forecastDetails.classList.remove('d-none');
-            }
+            $forecastDetails.innerHTML = ForecastDetails(this.forecast, data.index, this.city);
+            $forecastDetails.classList.remove('d-none');
         };
 
-        // #1 + #2 | Assign event handlers.
+        this.delegate('click', $forecastSummaries, displayForecastDetails);
 
         return this.forecast.map((day, i) => DayForecastSummary(day, i)).join('\n');
     };

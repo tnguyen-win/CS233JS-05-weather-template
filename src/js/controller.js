@@ -1,4 +1,3 @@
-import parseForecast from './weatherParsing';
 import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
@@ -89,25 +88,9 @@ export default class Controller {
 
                 [data, loc] = forecastAndLoc;
 
-                // let forecast = new WeatherForecast(data);
+                let root = new ForecastSummary(data, loc.name);
 
-                // for (var day of forecast.getDays()) {
-                //     let summaryHtml = day.getSummary();
-
-                //     this.$forecastSummaries.innerHTML += summaryHtml;
-                // }
-
-                let root = new ForecastSummary(parseForecast(data.list, data.city.timezone), loc.name);
-
-                // #1 + #2 | Assign event handlers.
-
-                this.$forecastSummaries.innerHTML = root.render(this.$forecastDetails);
-
-                // #2 | Assign event handlers.
-
-                // root.assignEventHandlers(this.$weatherItems, this.$forecastDetails);
-
-                // WeatherList(this.$forecastSummaries, parseForecast(data.list, data.city.timezone), this.$forecastDetails, loc.name);
+                this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
             })
             .then(() => this.clearCurrentDay());
     }
