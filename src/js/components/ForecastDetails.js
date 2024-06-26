@@ -3,10 +3,7 @@ import { getWeekday } from '../dates';
 export const ForecastDetails = function(forecast, i, _name) {
     /*
         Don't embed / hardcode:
-        • Images.
         • Ending suffix types.
-
-        Dynamically returned images can be of different sizes.
 
         forecast[i].morningTemp != morningTemp
     */
@@ -17,7 +14,7 @@ export const ForecastDetails = function(forecast, i, _name) {
     </h1>
     <div class="weather">
         <p>
-            <img src="https://openweathermap.org/img/w/04d.png" alt="Forecast icon." />
+            <img src="https://openweathermap.org/img/wn/${forecast[i].icon}.png" alt="Forecast icon." />
             &nbsp;
             ${forecast[i].description}
         </p>
