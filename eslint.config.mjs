@@ -11,6 +11,7 @@ export default [
             "import/no-duplicates": "off",
             "multiline-ternary": "off",
             "space-before-function-paren": "off",
+            "arrow-parens": ["warn", "as-needed"],
             "no-undef": "off",
             "no-tabs": "warn",
             "no-case-declarations": "off",

@@ -7,8 +7,5 @@ export default class Component {
         fn(data);
     }
 
-    delegate(type, elem, fn) {
-        elem.addEventListener(type, e => this.getNodeChildrenEventHandler(e.target, elem, fn));
-    };
-
+    delegate = (type, elem, fn) => elem.addEventListener(type, e => this.getNodeChildrenEventHandler(e.target, elem, fn));
 }
