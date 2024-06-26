@@ -596,10 +596,6 @@ video {
   margin-top: 1.25rem;
 }
 
-.inline {
-  display: inline;
-}
-
 .border {
   border-width: 1px;
 }
@@ -611,4 +607,8 @@ video {
 
 .text-center {
   text-align: center;
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }

@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.html",
     "scripts": {
-        "watch:webpack": "concurrently \"npm run watch:tailwindcss\" \"webpack serve --open --port 80\"",
+        "watch:webpack": "concurrently \"npm run watch:tailwindcss\" \"webpack serve\"",
         "lint": "eslint src",
         "lint-fix": "eslint --fix src",
         "watch:tailwindcss": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch",
@@ -26,6 +26,7 @@
         "eslint": "^9.5.0",
         "globals": "^15.6.0",
         "html-webpack-plugin": "^5.5.0",
+        "postcss": "^8.4.38",
         "postcss-loader": "^8.1.1",
         "postcss-preset-env": "^9.5.14",
         "sass": "^1.54.9",
@@ -37,10 +38,10 @@
         "webpack-dev-server": "^4.15.2"
     },
     "dependencies": {
+        "@ocdla/http2": "file:dev_modules/@ocdla/lib-http2",
         "babel-loader": "^8.2.5",
         "bootstrap": "^5.2.1",
         "bootstrap-less": "^3.3.8",
-        "less": "^4.1.1",
-	"@ocdla/http2": "file:dev_modules/@ocdla/lib-http2"
+        "less": "^4.1.1"
     }
 }

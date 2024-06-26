@@ -27,7 +27,12 @@ module.exports = {
     },
     target: "web",
     devServer: {
-        static: "./src"
+        static: "./src",
+        port: 80,
+        open: true,
+        hot: true,
+        compress: true,
+        historyApiFallback: true
     },
     devtool: "source-map",
     module: {
