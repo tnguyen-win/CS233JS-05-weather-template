@@ -1,52 +1,46 @@
 import { getWeekday } from '../dates';
+import getTemperatureWithSuffix from '../forecast_types';
 
-export const ForecastDetails = function(forecast, i, _name) {
-    /*
-        Don't embed / hardcode:
-        • Ending suffix types.
-
-        forecast[i].morningTemp != morningTemp
-    */
-
+export const dayDetails = function(day, _name, temperature_type) {
     return `
     <h1 class="day-header">
-        ${getWeekday(forecast[i].dt)} in ${_name}
+        ${getWeekday(day.dt)} in ${_name}
     </h1>
     <div class="weather">
         <p>
-            <img src="https://openweathermap.org/img/wn/${forecast[i].icon}.png" alt="Forecast icon." />
+            <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="day icon." />
             &nbsp;
-            ${forecast[i].description}
+            ${day.description}
         </p>
     </div>
     <div class="details">
         <div class="temperature-breakdown">
             <p>
-                Morning Temperature: ${forecast[i].morningTemp}&deg;F
+                Morning Temperature: ${getTemperatureWithSuffix(day.morningTemp, temperature_type)}
             </p>
             <p>
-                Day Temperature: ${forecast[i].dayTemp}&deg;F
+                Day Temperature: ${getTemperatureWithSuffix(day.dayTemp, temperature_type)}
             </p>
             <p>
-                Evening Temperature: ${forecast[i].eveningTemp}&deg;F
+                Evening Temperature: ${getTemperatureWithSuffix(day.eveningTemp, temperature_type)}
             </p>
             <p>
-                Night Temperature: ${forecast[i].nightTemp}&deg;F
+                Night Temperature: ${getTemperatureWithSuffix(day.nightTemp, temperature_type)}
             </p>
         </div>
         <div class="misc-details">
             <p>
-                Atmospheric Pressure: ${forecast[i].pressure} hPa
+                Atmospheric Pressure: ${day.pressure} hPa
             </p>
             <p>
-                Humidity: ${forecast[i].humidity}%
+                Humidity: ${day.humidity}%
             </p>
             <p>
-                Wind Speed: ${forecast[i].wind} mph
+                Wind Speed: ${day.wind} mph
             </p>
         </div>
     </div>
     `;
 };
 
-export default ForecastDetails;
+export default dayDetails;

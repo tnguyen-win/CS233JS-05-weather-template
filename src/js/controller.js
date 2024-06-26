@@ -49,13 +49,13 @@ export default class Controller {
     // addParam()
     // toString()
 
-    getForecastUrl(lat, lon) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=imperial&' + 'lat=' + lat + '&' + 'lon=' + lon + '&' + this.apiKey;
+    getForecastUrl(lat, lon, temperature_type) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + temperature_type + '&lat=' + lat + '&lon=' + lon + '&' + this.apiKey;
     }
 
-    getForecast(lat, lon) {
+    getForecast(lat, lon, temperature_type) {
         // async getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon);
+        let forecastUrl = this.getForecastUrl(lat, lon, temperature_type);
         // const resp = await fetch(forecastUrl);
 
         return fetch(forecastUrl).then(resp => resp.json());
@@ -72,14 +72,23 @@ export default class Controller {
     onFormSubmit(e) {
         e.preventDefault();
 
+        /*
+            Supported Forecast Suffix Types:
+            • Fahrenheit = Imperial
+            • Celsius = Metric
+            • mpA / mmHg
+            • mph / km / h
+        */
+
         let form = e.target;
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
         let locale = 'US';
+        let temperature_type = 'Metric';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let data = this.getForecast(loc.lat, loc.lon);
+                let data = this.getForecast(loc.lat, loc.lon, temperature_type);
 
                 return Promise.all([data, loc]);
             })
@@ -88,7 +97,7 @@ export default class Controller {
 
                 [data, loc] = forecastAndLoc;
 
-                let root = new ForecastSummary(data, loc.name);
+                let root = new ForecastSummary(data, loc.name, temperature_type, 'mmHg', 'km / h');
 
                 this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
             })
