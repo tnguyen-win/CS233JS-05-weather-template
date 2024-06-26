@@ -1,6 +1,16 @@
 import { getWeekday } from '../dates';
 
 export const ForecastDetails = function(forecast, i, _name) {
+    /*
+        Don't embed / hardcode:
+        • Images.
+        • Ending suffix types.
+
+        Dynamically returned images can be of different sizes.
+
+        forecast[i].morningTemp != morningTemp
+    */
+
     return `
     <h1 class="day-header">
         ${getWeekday(forecast[i].dt)} in ${_name}

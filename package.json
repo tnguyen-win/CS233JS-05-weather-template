@@ -40,6 +40,7 @@
         "babel-loader": "^8.2.5",
         "bootstrap": "^5.2.1",
         "bootstrap-less": "^3.3.8",
-        "less": "^4.1.1"
+        "less": "^4.1.1",
+	"@ocdla/http2": "file:dev_modules/@ocdla/lib-http2"
     }
 }

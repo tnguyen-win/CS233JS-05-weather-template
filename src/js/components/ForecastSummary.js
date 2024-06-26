@@ -10,8 +10,11 @@ export default class ForecastSummary extends Component {
     constructor(data, city) {
         super();
 
-        // Accepts forecast.
-        // parseForecast(data.list, data.city.timezone)
+        /*
+            parseForecast() = Raw data.
+            Model != [3, 3, 3, 3]
+            Model = [df1, df2, df3]
+        */
         this.forecast = parseForecast(data.list, data.city.timezone);
         this.city = city;
 

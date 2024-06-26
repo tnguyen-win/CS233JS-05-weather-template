@@ -16,6 +16,9 @@ module.exports = {
     entry: {
         app: "./src/js/app.js",
     },
+    resolve: {
+        symlinks: false,
+    },
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].bundle.js",
