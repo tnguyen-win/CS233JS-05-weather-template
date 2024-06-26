@@ -76,7 +76,7 @@ export default class Controller {
             Supported Forecast Suffix Types:
             • Fahrenheit = Imperial
             • Celsius = Metric
-            • mpA / mmHg
+            • hPA / mmHg
             • mph / km / h
         */
 

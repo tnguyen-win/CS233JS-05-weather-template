@@ -30,13 +30,13 @@ export const dayDetails = function(day, _name, temperature_type) {
         </div>
         <div class="misc-details">
             <p>
-                Atmospheric Pressure: ${day.pressure} hPa
+                Atmospheric Pressure: ${day.pressure}hPa
             </p>
             <p>
                 Humidity: ${day.humidity}%
             </p>
             <p>
-                Wind Speed: ${day.wind} mph
+                Wind Speed: ${day.wind}mph
             </p>
         </div>
     </div>
