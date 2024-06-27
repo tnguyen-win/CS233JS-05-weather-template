@@ -1,5 +1,5 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
 
 
 export default [
@@ -8,32 +8,32 @@ export default [
 
     {
         rules: {
-            "import/no-duplicates": "off",
-            "multiline-ternary": "off",
-            "space-before-function-paren": "off",
-            "arrow-parens": ["warn", "as-needed"],
-            "no-undef": "off",
-            "no-tabs": "warn",
-            "no-case-declarations": "off",
-            "indent": [
-                "warn",
+            'import/no-duplicates': 'off',
+            'multiline-ternary': 'off',
+            'space-before-function-paren': 'off',
+            'arrow-parens': ['warn', 'as-needed'],
+            'no-undef': 'off',
+            'no-tabs': 'warn',
+            'no-case-declarations': 'off',
+            'indent': [
+                'warn',
                 4,
                 {
-                    "SwitchCase": 1
+                    'SwitchCase': 1
                 }
             ],
-            "quotes": [
-                "warn",
-                "single"
+            'quotes': [
+                'warn',
+                'single'
             ],
-            "semi": [
-                "warn",
-                "always"
+            'semi': [
+                'warn',
+                'always'
             ],
-            "no-array-constructor": "warn",
-            "no-unused-vars": "warn",
-            "eqeqeq": "warn",
-            "no-console": "warn"
+            'no-array-constructor': 'warn',
+            'no-unused-vars': 'warn',
+            'eqeqeq': 'warn',
+            'no-console': 'warn'
         }
     }
 ];

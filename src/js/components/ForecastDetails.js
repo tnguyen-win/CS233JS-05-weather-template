@@ -3,18 +3,18 @@ import { getTemperatureWithUnitType, getWindSpeedWithUnitType } from '../forecas
 
 export const dayDetails = function(day, _name, unitType) {
     return `
-        <h1 class="day-header">
+        <h1 class='day-header'>
             ${getWeekday(day.dt)} in ${_name}
         </h1>
-        <div class="weather">
+        <div class='weather'>
             <p>
-                <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="day icon." />
+                <img src='https://openweathermap.org/img/wn/${day.icon}.png' alt='day icon.' />
                 &nbsp;
                 ${day.description}
             </p>
         </div>
-        <div class="details">
-            <div class="temperature-breakdown">
+        <div class='details'>
+            <div class='temperature-breakdown'>
                 <p>
                     Morning Temperature: ${getTemperatureWithUnitType(day.morningTemp, unitType)}
                 </p>
@@ -28,7 +28,7 @@ export const dayDetails = function(day, _name, unitType) {
                     Night Temperature: ${getTemperatureWithUnitType(day.nightTemp, unitType)}
                 </p>
             </div>
-            <div class="misc-details">
+            <div class='misc-details'>
                 <p>
                     Atmospheric Pressure: ${day.pressure} hPa
                 </p>
