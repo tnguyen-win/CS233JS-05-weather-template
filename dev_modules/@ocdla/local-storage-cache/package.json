@@ -1,0 +1,6 @@
+{
+    "name": "@ocdla/local-storage-cache",
+    "version": "0.1.0",
+    "description": "",
+    "main": "LocalStorage.js"
+}
