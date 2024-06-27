@@ -1,7 +1,6 @@
 import Component from './Component';
-import DayForecastSummary from './DayForecastSummary';
 import ForecastDetails from './ForecastDetails';
-import parseForecast from '../weatherParsing';
+import DayForecast from './DayForecast';
 
 export default class ForecastSummary extends Component {
     constructor(data, city, unitType) {
@@ -21,23 +20,28 @@ export default class ForecastSummary extends Component {
 
         super();
 
-        this.forecast = parseForecast(data.list, data.city.timezone);
+        this.forecast = new DayForecast(data);
 
         Object.assign(this, ({ city, unitType }));
     }
 
     render($forecastSummaries, $forecastDetails) {
+        const getDays = this.forecast.getDays();
+        let summaryHtml = '';
+
         const displayForecastDetails = data => {
             const index = data.index;
 
             if (!index) return false;
 
-            $forecastDetails.innerHTML = ForecastDetails(this.forecast[data.index], this.city, this.unitType);
+            $forecastDetails.innerHTML = ForecastDetails(getDays[data.index], this.city, this.unitType);
             $forecastDetails.classList.remove('d-none');
         };
 
         this.delegate('click', $forecastSummaries, displayForecastDetails);
 
-        return this.forecast.map((day, i) => DayForecastSummary(day, i, this.unitType)).join('\n');
+        for (const [i, day] of getDays.entries()) summaryHtml += this.forecast.getSummary(day, i, this.unitType);
+
+        return $forecastSummaries.innerHTML = summaryHtml;
     };
 }
