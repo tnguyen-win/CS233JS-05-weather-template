@@ -1,7 +1,7 @@
 import { getWeekday } from '../dates';
-import getTemperatureWithSuffix from '../forecast_types';
+import { getTemperatureWithUnitType, getWindSpeedWithUnitType } from '../forecast_types';
 
-export const dayDetails = function(day, _name, temperature_type) {
+export const dayDetails = function(day, _name, unitType) {
     return `
         <h1 class="day-header">
             ${getWeekday(day.dt)} in ${_name}
@@ -16,27 +16,27 @@ export const dayDetails = function(day, _name, temperature_type) {
         <div class="details">
             <div class="temperature-breakdown">
                 <p>
-                    Morning Temperature: ${getTemperatureWithSuffix(day.morningTemp, temperature_type)}
+                    Morning Temperature: ${getTemperatureWithUnitType(day.morningTemp, unitType)}
                 </p>
                 <p>
-                    Day Temperature: ${getTemperatureWithSuffix(day.dayTemp, temperature_type)}
+                    Day Temperature: ${getTemperatureWithUnitType(day.dayTemp, unitType)}
                 </p>
                 <p>
-                    Evening Temperature: ${getTemperatureWithSuffix(day.eveningTemp, temperature_type)}
+                    Evening Temperature: ${getTemperatureWithUnitType(day.eveningTemp, unitType)}
                 </p>
                 <p>
-                    Night Temperature: ${getTemperatureWithSuffix(day.nightTemp, temperature_type)}
+                    Night Temperature: ${getTemperatureWithUnitType(day.nightTemp, unitType)}
                 </p>
             </div>
             <div class="misc-details">
                 <p>
-                    Atmospheric Pressure: ${day.pressure}hPa
+                    Atmospheric Pressure: ${day.pressure} hPa
                 </p>
                 <p>
                     Humidity: ${day.humidity}%
                 </p>
                 <p>
-                    Wind Speed: ${day.wind}mph
+                    Wind Speed: ${getWindSpeedWithUnitType(day.wind, unitType)}
                 </p>
             </div>
         </div>

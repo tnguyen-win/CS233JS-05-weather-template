@@ -49,13 +49,13 @@ export default class Controller {
     // addParam()
     // toString()
 
-    getForecastUrl(lat, lon, temperature_type) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + temperature_type + '&lat=' + lat + '&lon=' + lon + '&' + this.apiKey;
+    getForecastUrl(lat, lon, unitType) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&' + this.apiKey;
     }
 
-    getForecast(lat, lon, temperature_type) {
+    getForecast(lat, lon, unitType) {
         // async getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon, temperature_type);
+        let forecastUrl = this.getForecastUrl(lat, lon, unitType);
         // const resp = await fetch(forecastUrl);
 
         return fetch(forecastUrl).then(resp => resp.json());
@@ -70,25 +70,27 @@ export default class Controller {
     }
 
     onFormSubmit(e) {
-        e.preventDefault();
-
         /*
             Supported Forecast Suffix Types:
-            • Fahrenheit = Imperial
-            • Celsius = Metric
-            • hPA / mmHg
-            • mph / km / h
+            • Imperial
+                • Fahrenheit
+                • Miles per Hour
+            • Metric
+                • Celsius
+                • Meters per Second
         */
+
+        e.preventDefault();
 
         let form = e.target;
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
         let locale = 'US';
-        let temperature_type = 'Metric';
+        let unitType = 'Imperial';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let data = this.getForecast(loc.lat, loc.lon, temperature_type);
+                let data = this.getForecast(loc.lat, loc.lon, unitType);
 
                 return Promise.all([data, loc]);
             })
@@ -97,7 +99,7 @@ export default class Controller {
 
                 [data, loc] = forecastAndLoc;
 
-                let root = new ForecastSummary(data, loc.name, temperature_type, 'mmHg', 'km / h');
+                let root = new ForecastSummary(data, loc.name, unitType);
 
                 this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
             })

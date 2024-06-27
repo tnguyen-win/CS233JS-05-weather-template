@@ -4,7 +4,7 @@ import ForecastDetails from './ForecastDetails';
 import parseForecast from '../weatherParsing';
 
 export default class ForecastSummary extends Component {
-    constructor(data, city, temperature_type, pressure_type, scale_type) {
+    constructor(data, city, unitType) {
         /*
             parseForecast() = Raw data.
             Model != [3, 3, 3, 3]
@@ -22,11 +22,8 @@ export default class ForecastSummary extends Component {
         super();
 
         this.forecast = parseForecast(data.list, data.city.timezone);
-        // this.city = city;
-        // this.temperature_type = temperature_type;
-        // this.pressure_type = pressure_type;
-        // this.scale_type = scale_type;
-        Object.assign(this, ({ city, temperature_type, pressure_type, scale_type }));
+
+        Object.assign(this, ({ city, unitType }));
     }
 
     render($forecastSummaries, $forecastDetails) {
@@ -35,12 +32,12 @@ export default class ForecastSummary extends Component {
 
             if (!index) return false;
 
-            $forecastDetails.innerHTML = ForecastDetails(this.forecast[data.index], this.city, this.temperature_type, this.pressure_type, this.scale_type);
+            $forecastDetails.innerHTML = ForecastDetails(this.forecast[data.index], this.city, this.unitType);
             $forecastDetails.classList.remove('d-none');
         };
 
         this.delegate('click', $forecastSummaries, displayForecastDetails);
 
-        return this.forecast.map((day, i) => DayForecastSummary(day, i, this.temperature_type)).join('\n');
+        return this.forecast.map((day, i) => DayForecastSummary(day, i, this.unitType)).join('\n');
     };
 }
