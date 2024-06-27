@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/styles.scss';
 // import '../css/output.css';
-import Controller from './controller.js';
+import Controller from './controller';
 
 var controller;
 
