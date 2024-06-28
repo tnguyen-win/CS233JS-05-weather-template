@@ -30,6 +30,8 @@ export default class ForecastSummary extends Component {
         let summaryHtml = '';
 
         const displayForecastDetails = data => {
+            if (!data) return false;
+
             const index = data.index;
 
             if (!index) return false;

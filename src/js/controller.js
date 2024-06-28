@@ -72,12 +72,19 @@ export default class Controller {
     onFormSubmit(e) {
         /*
             Supported Forecast Suffix Types:
+            • Standard
+                • Kelvin
             • Imperial
                 • Fahrenheit
                 • Miles per Hour
             • Metric
                 • Celsius
                 • Meters per Second
+
+            Notes:
+            • Lowercase unit type.
+            • Manually convert mathematically.
+                • Server-side (faster) versus client-side (local access for without internet).
         */
 
         e.preventDefault();
@@ -86,7 +93,7 @@ export default class Controller {
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
         let locale = 'US';
-        let unitType = 'Imperial';
+        let unitType = 'Metric';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {

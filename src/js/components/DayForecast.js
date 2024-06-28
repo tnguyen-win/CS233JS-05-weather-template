@@ -6,7 +6,11 @@ export default class DayForecast {
         Object.assign(this, ({ data }));
     }
 
-    getDays = () => parseForecast(this.data.list, this.data.city.timezone);
+    getDays() {
+        return parseForecast(this.data.list, this.data.city.timezone);
+    }
 
-    getSummary = (day, i, unitType) => DayForecastSummary(day, i, unitType);
+    getSummary(day, i, unitType) {
+        return DayForecastSummary(day, i, unitType);
+    }
 }
