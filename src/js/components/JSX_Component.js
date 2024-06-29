@@ -1,5 +1,5 @@
 /** @jsx vNode */
-import { vNode } from '../../../node_modules/@ocdla/view/view';
+import { vNode } from '@ocdla/view/view';
 
 export const JSX_Component = ({ classes, styles, body }) => {
     const inlineStyles = Object.keys(styles || {}).map(key => `${key}: ${styles[key]};`).join(' ');
