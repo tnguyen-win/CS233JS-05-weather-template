@@ -14,16 +14,16 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 module.exports = {
     mode: 'development',
     entry: {
-        app: './src/js/app.js',
+        app: './src/js/app.js'
     },
     resolve: {
-        symlinks: false,
+        symlinks: false
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
         assetModuleFilename: 'images/[name][ext]',
-        clean: true,
+        clean: true
     },
     target: 'web',
     devServer: {
@@ -57,11 +57,11 @@ module.exports = {
             },
             {
                 test: /\.(svg|eot|ttf|woff|woff2)$/i,
-                type: 'asset/resource',
+                type: 'asset/resource'
             },
             {
                 test: /\.(png|jpg|gif)$/i,
-                type: 'asset/resource',
+                type: 'asset/resource'
             },
         ],
     },
@@ -74,7 +74,7 @@ module.exports = {
             template: path.resolve(__dirname, './src/index.html'),
             chunks: ['app'],
             inject: 'body',
-            filename: 'index.html',
+            filename: 'index.html'
         }),
         /* new copyPlugin({
           patterns: [
