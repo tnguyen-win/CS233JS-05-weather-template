@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component from '@ocdla/component';
 import ForecastDetails from './ForecastDetails';
 import DayForecast from './DayForecast';
 
@@ -30,8 +30,6 @@ export default class ForecastSummary extends Component {
         let summaryHtml = '';
 
         const displayForecastDetails = data => {
-            if (!data) return false;
-
             const index = data.index;
 
             if (!index) return false;
