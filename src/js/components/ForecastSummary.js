@@ -30,10 +30,6 @@ export default class ForecastSummary extends Component {
         let summaryHtml = '';
 
         const displayForecastDetails = data => {
-            const index = data.index;
-
-            if (!index) return false;
-
             $forecastDetails.innerHTML = ForecastDetails(getDays[data.index], this.city, this.unitType);
             $forecastDetails.classList.remove('d-none');
         };
