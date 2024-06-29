@@ -1,6 +1,0 @@
-{
-    "name": "@ocdla/http2",
-    "version": "0.1.0",
-    "description": "",
-    "main": "HttpClient.js"
-}

@@ -1,4 +1,4 @@
-import { getWeekday } from '../dates';
+import { getWeekday } from '@ocdla/date2';
 import { getTemperatureWithUnitType } from '../forecast_types';
 
 export const DayForecastSummary = function(day, i, unitType) {

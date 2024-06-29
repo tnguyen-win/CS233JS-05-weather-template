@@ -1,4 +1,4 @@
-import parseForecast from '../weatherParsing';
+import parseForecast from '../models/WeatherForecast';
 import DayForecastSummary from './DayForecastSummary';
 
 export default class DayForecast {
