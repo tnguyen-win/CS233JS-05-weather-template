@@ -1,5 +1,5 @@
 /** @jsx vNode */
-import { vNode, View } from '../../node_modules/@ocdla/view/view';
+import { vNode, View } from '@ocdla/view/view';
 import { JSX_Component } from './components/JSX_Component';
 
 export default class JSX_Tests {
@@ -11,7 +11,7 @@ export default class JSX_Tests {
 
         this.root.render(
             <JSX_Component
-                classes='rounded-5 p-4'
+                classes='rounded-5 bg-black p-4'
                 styles={{
                     width: 'max-content',
                     color: 'red'
