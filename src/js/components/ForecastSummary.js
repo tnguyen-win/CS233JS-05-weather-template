@@ -1,6 +1,7 @@
 import Component from '@ocdla/component';
 import ForecastDetails from './ForecastDetails';
-import DayForecast from './DayForecast';
+import WeatherForecast from '../models/WeatherForecast';
+import DayForecastSummary from './DayForecastSummary';
 
 export default class ForecastSummary extends Component {
     constructor(data, city, unitType) {
@@ -20,13 +21,15 @@ export default class ForecastSummary extends Component {
 
         super();
 
-        this.forecast = new DayForecast(data);
+        //this.forecast = new DayForecast(data);
+
+        this.forecast = new WeatherForecast(data.list);
 
         Object.assign(this, ({ city, unitType }));
     }
 
     render($forecastSummaries, $forecastDetails) {
-        const getDays = this.forecast.getDays();
+        const getDays = this.forecast.getDailyForecasts();
         let summaryHtml = '';
 
         const displayForecastDetails = data => {
@@ -40,7 +43,7 @@ export default class ForecastSummary extends Component {
 
         this.delegate('click', $forecastSummaries, displayForecastDetails);
 
-        for (const [i, day] of getDays.entries()) summaryHtml += this.forecast.getSummary(day, i, this.unitType);
+        for (const [i, day] of getDays.entries()) summaryHtml += DayForecastSummary(day, i, this.unitType);
 
         return $forecastSummaries.innerHTML = summaryHtml;
     };
