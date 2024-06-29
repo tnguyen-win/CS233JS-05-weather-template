@@ -1,11 +1,18 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 
-
 export default [
-    { languageOptions: { globals: globals.browser } },
+    {
+        languageOptions: {
+            globals: globals.browser,
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        }
+    },
     pluginJs.configs.recommended,
-
     {
         rules: {
             'import/no-duplicates': 'off',
