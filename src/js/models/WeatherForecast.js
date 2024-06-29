@@ -1,4 +1,4 @@
-import DayForecast from './components/DayForecast';
+// import DayForecast from './components/DayForecast';
 
 /*
     Model = Data that is taken in.
@@ -8,41 +8,41 @@ import DayForecast from './components/DayForecast';
     Only place in the application that has data consumed.
 */
 
-class WeatherForecast {
-    constructor(data) {
-        let simpleForecast = [];
-        const MIDNIGHT = getIndexOfMidnight(forecast[0].dt, timezoneOffset);
-        const NOON = 4;
-        const SIXAM = 2;
-        const SIXPM = 6;
-        const NINEPM = 7;
-        const MORNING = SIXAM;
-        const DAY = NOON;
-        const EVENING = SIXPM;
-        const NIGHT = NINEPM;
-        const PERDAY = 8;
+// class WeatherForecast {
+//     constructor(data) {
+//         let simpleForecast = [];
+//         const MIDNIGHT = getIndexOfMidnight(forecast[0].dt, timezoneOffset);
+//         const NOON = 4;
+//         const SIXAM = 2;
+//         const SIXPM = 6;
+//         const NINEPM = 7;
+//         const MORNING = SIXAM;
+//         const DAY = NOON;
+//         const EVENING = SIXPM;
+//         const NIGHT = NINEPM;
+//         const PERDAY = 8;
 
-        for (let i = MIDNIGHT; i < data.length - NINEPM; i += PERDAY) {
-            let oneDay = {};
+//         for (let i = MIDNIGHT; i < data.length - NINEPM; i += PERDAY) {
+//             let oneDay = {};
 
-            oneDay.dt = new Date(forecast[i + NOON].dt * 1000);
-            oneDay.temp = forecast[i + NOON].main.temp;
-            oneDay.minTemp = findMinTemp(forecast, i);
-            oneDay.maxTemp = findMaxTemp(forecast, i);
-            oneDay.morningTemp = forecast[i + MORNING].main.temp;
-            oneDay.dayTemp = forecast[i + DAY].main.temp;
-            oneDay.eveningTemp = forecast[i + EVENING].main.temp;
-            oneDay.nightTemp = forecast[i + NIGHT].main.temp;
-            oneDay.description = forecast[i + NOON].weather[0].description;
-            oneDay.icon = forecast[i + NOON].weather[0].icon;
-            oneDay.pressure = forecast[i + NOON].main.pressure;
-            oneDay.wind = forecast[i + NOON].wind.speed;
-            oneDay.humidity = forecast[i + NOON].main.humidity;
+//             oneDay.dt = new Date(forecast[i + NOON].dt * 1000);
+//             oneDay.temp = forecast[i + NOON].main.temp;
+//             oneDay.minTemp = findMinTemp(forecast, i);
+//             oneDay.maxTemp = findMaxTemp(forecast, i);
+//             oneDay.morningTemp = forecast[i + MORNING].main.temp;
+//             oneDay.dayTemp = forecast[i + DAY].main.temp;
+//             oneDay.eveningTemp = forecast[i + EVENING].main.temp;
+//             oneDay.nightTemp = forecast[i + NIGHT].main.temp;
+//             oneDay.description = forecast[i + NOON].weather[0].description;
+//             oneDay.icon = forecast[i + NOON].weather[0].icon;
+//             oneDay.pressure = forecast[i + NOON].main.pressure;
+//             oneDay.wind = forecast[i + NOON].wind.speed;
+//             oneDay.humidity = forecast[i + NOON].main.humidity;
 
-            simpleForecast.push(oneDay);
-        }
-    }
-}
+//             simpleForecast.push(oneDay);
+//         }
+//     }
+// }
 
 function getIndexOfMidnight(firstDate) {
     let dt = firstDate * 1000;
