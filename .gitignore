@@ -89,6 +89,7 @@ typings/
 # dotenv environment variables file
 .env.local
 
-
+# npm environment variables file
+.npmrc
 
 # End of https://www.gitignore.io/api/node,macos

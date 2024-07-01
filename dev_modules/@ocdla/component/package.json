@@ -1,6 +1,13 @@
 {
     "name": "@ocdla/component",
+    "homepage": "https://ocdla.org",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ocdla/component.git"
+    },
     "version": "0.1.0",
-    "description": "",
+    "description": "Top-level component class providing common methods to be used by derived components.",
+    "author": "Trung Nguyen",
+    "license": "ISC",
     "main": "Component.js"
 }

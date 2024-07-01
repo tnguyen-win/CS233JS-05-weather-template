@@ -1,6 +1,13 @@
 {
     "name": "@ocdla/date2",
+    "homepage": "https://ocdla.org",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ocdla/date2.git"
+    },
     "version": "0.1.0",
-    "description": "",
+    "description": "JavaScript library with date-related helper functions.",
+    "author": "Trung Nguyen",
+    "license": "ISC",
     "main": "DateLibrary.js"
 }
