@@ -14,7 +14,13 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 module.exports = {
     mode: 'development',
     entry: {
-        app: './src/js/app.js'
+        app: path.resolve(__dirname, './src/js/app.js')
+    },
+    snapshot: {
+        managedPaths: []
+    },
+    watchOptions: {
+        followSymlinks: true
     },
     resolve: {
         symlinks: false
@@ -27,7 +33,7 @@ module.exports = {
     },
     target: 'web',
     devServer: {
-        static: './src',
+        static: path.resolve(__dirname, './src'),
         port: 80,
         open: true,
         hot: true,
