@@ -4,7 +4,6 @@ export default class OneDayForecast {
         const NOON = 4;
         const SIX_PM = 6;
         const NINE_PM = 7;
-
         const MORNING = SIX_AM;
         const DAY = NOON;
         const EVENING = SIX_PM;
@@ -49,10 +48,7 @@ export default class OneDayForecast {
         let dt = firstDate * 1000;
         let date = new Date(dt);
         let localHours = date.getHours();
-        let firstMidnightIndex =
-            localHours > 2
-                ? Math.round((24 - localHours) / 3)
-                : Math.abs(Math.round(localHours / 3));
+        let firstMidnightIndex = localHours > 2 ? Math.round((24 - localHours) / 3) : Math.abs(Math.round(localHours / 3));
 
         return firstMidnightIndex;
     }

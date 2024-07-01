@@ -1,7 +1,6 @@
 import { getWeekday } from '@ocdla/date2';
-import { getTemperatureWithUnitType, getWindSpeedWithUnitType } from '../forecast_types';
 
-export const dayDetails = function(day, _name, unitType) {
+export const dayDetails = function(day, _name, forecast, unitType) {
     return `
         <h1 class='day-header'>
             ${getWeekday(day.dt)} in ${_name}
@@ -16,16 +15,16 @@ export const dayDetails = function(day, _name, unitType) {
         <div class='details'>
             <div class='temperature-breakdown'>
                 <p>
-                    Morning Temperature: ${getTemperatureWithUnitType(day.morningTemp, unitType)}
+                    Morning Temperature: ${forecast.getTemperatureWithUnitType(day.morningTemp, unitType)}
                 </p>
                 <p>
-                    Day Temperature: ${getTemperatureWithUnitType(day.dayTemp, unitType)}
+                    Day Temperature: ${forecast.getTemperatureWithUnitType(day.dayTemp, unitType)}
                 </p>
                 <p>
-                    Evening Temperature: ${getTemperatureWithUnitType(day.eveningTemp, unitType)}
+                    Evening Temperature: ${forecast.getTemperatureWithUnitType(day.eveningTemp, unitType)}
                 </p>
                 <p>
-                    Night Temperature: ${getTemperatureWithUnitType(day.nightTemp, unitType)}
+                    Night Temperature: ${forecast.getTemperatureWithUnitType(day.nightTemp, unitType)}
                 </p>
             </div>
             <div class='misc-details'>
@@ -36,7 +35,7 @@ export const dayDetails = function(day, _name, unitType) {
                     Humidity: ${day.humidity}%
                 </p>
                 <p>
-                    Wind Speed: ${getWindSpeedWithUnitType(day.wind, unitType)}
+                    Wind Speed: ${forecast.getWindSpeedWithUnitType(day.wind, unitType)}
                 </p>
             </div>
         </div>

@@ -62,8 +62,6 @@ export default class Controller {
         // return await resp.json();
     }
 
-    // WIP
-
     clearCurrentDay() {
         this.$form.reset();
         this.$forecastDetails.classList.add('d-none');
