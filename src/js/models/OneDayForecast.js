@@ -44,4 +44,16 @@ export default class OneDayForecast {
     getDay() {
         return this.dt;
     }
+
+    getIndexOfMidnight(firstDate) {
+        let dt = firstDate * 1000;
+        let date = new Date(dt);
+        let localHours = date.getHours();
+        let firstMidnightIndex =
+            localHours > 2
+                ? Math.round((24 - localHours) / 3)
+                : Math.abs(Math.round(localHours / 3));
+
+        return firstMidnightIndex;
+    }
 }

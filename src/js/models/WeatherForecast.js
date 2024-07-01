@@ -1,10 +1,8 @@
-import DayForecastSummary from '../components/DayForecastSummary';
+// import DayForecastSummary from '../components/DayForecastSummary';
 import OneDayForecast from './OneDayForecast';
 export default class WeatherForecast {
-    #dailyForecasts = [];
-
     constructor(data) {
-        this.#dailyForecasts = this.parse(data);
+        this.dailyForecasts = this.parse(data);
     }
 
     // The returned data is an array consisting of a sequence of 3-hour forecast samples.
@@ -36,12 +34,9 @@ export default class WeatherForecast {
     }
 
     getDailyForecasts() {
-        return this.#dailyForecasts;
+        return this.dailyForecasts;
     }
-    
 
-    
-    
     static getTemperatureWithUnitType(value, unitType) {
         return unitType === "Imperial" ? Math.round(value) + "&deg; F" : unitType === "Metric" ? Math.round(value) + "&deg; C" : " [Unknown Type]";
     }

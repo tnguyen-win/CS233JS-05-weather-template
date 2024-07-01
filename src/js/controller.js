@@ -93,7 +93,7 @@ export default class Controller {
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
         let locale = 'US';
-        let unitType = 'Metric';
+        let unitType = 'Imperial';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
