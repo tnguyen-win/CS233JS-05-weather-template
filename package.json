@@ -5,8 +5,8 @@
     "main": "index.html",
     "scripts": {
         "watch:webpack": "webpack serve",
-        "lint": "eslint src",
-        "lint-fix": "eslint --fix src",
+        "lint": "eslint dev_modules src",
+        "lint-fix": "eslint --fix dev_modules src",
         "webpack": "webpack",
         "build": "webpack --config webpack.config.js",
         "git-reset": "git reset --soft HEAD~1"
