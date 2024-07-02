@@ -10,5 +10,5 @@ var controller;
 window.onload = () => new Controller();
 window.Controller = controller;
 
-// window.onload = () => jsx_tests = new JSX_Tests();
+// window.onload = () => new JSX_Tests();
 // window.JSX_Tests = jsx_tests;

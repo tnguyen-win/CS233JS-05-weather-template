@@ -1,3 +1,7 @@
+/** @jsx vNode */
+/* eslint-disable */
+import { vNode, View } from '@ocdla/view/view';
+/* eslint-enable */
 import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
@@ -103,6 +107,17 @@ export default class Controller {
                 let data, loc;
 
                 [data, loc] = forecastAndLoc;
+
+                // OCDLA JSX
+
+                // const root = View.createRoot(this.$forecastSummaries);
+                // let summary = new ForecastSummary(data, loc.name, unitType);
+
+                // root.render(
+                //     summary.render(this.$forecastSummaries, this.$forecastDetails)
+                // );
+
+                // Vanilla JS
 
                 let root = new ForecastSummary(data, loc.name, unitType);
 
