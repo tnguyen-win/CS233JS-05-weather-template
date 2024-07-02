@@ -1,5 +1,5 @@
-export default class OneDayForecast {
-    constructor(samples) {
+class Sample {
+    constructor() {
         const SIX_AM = 2;
         const NOON = 4;
         const SIX_PM = 6;
@@ -22,25 +22,5 @@ export default class OneDayForecast {
         this.pressure = samples[NOON].main.pressure;
         this.wind = samples[NOON].wind.speed;
         this.humidity = samples[NOON].main.humidity;
-    }
-
-    getLow(forecast) {
-        let min = forecast[0].main.temp_min;
-
-        for (let i = 1; i < forecast.length; i++) if (forecast[i].main.temp_min < min) min = forecast[i].main.temp_min;
-
-        return min;
-    }
-
-    getHigh(forecast) {
-        let max = forecast[0].main.temp_max;
-
-        for (let i = 1; i < forecast.length; i++) if (forecast[i].main.temp_max > max) max = forecast[i].main.temp_max;
-
-        return max;
-    }
-
-    getDay() {
-        return this.dt;
     }
 }

@@ -2,6 +2,7 @@
 /* eslint-disable */
 import { vNode, View } from '@ocdla/view/view';
 /* eslint-enable */
+import WeatherForecast from './models/WeatherForecast';
 import ForecastSummary from './components/ForecastSummary';
 
 export default class Controller {
@@ -95,7 +96,7 @@ export default class Controller {
         let data = new FormData(form);
         let zipCode = data.get('zipCode');
         let locale = 'US';
-        let unitType = 'Imperial';
+        let unitType = 'imperial';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
@@ -110,18 +111,20 @@ export default class Controller {
 
                 // OCDLA JSX
 
-                // const root = View.createRoot(this.$forecastSummaries);
-                // let summary = new ForecastSummary(data, loc.name, unitType);
+                const root = View.createRoot(this.$forecastSummaries);
+                const wf = new WeatherForecast(data.list);
+                // let summary = new ForecastSummary(wf, data, loc.name, unitType);
+                let summary = new ForecastSummary(wf);
 
-                // root.render(
-                //     summary.render(this.$forecastSummaries, this.$forecastDetails)
-                // );
+                root.render(
+                    summary.render(this.$forecastSummaries, this.$forecastDetails)
+                );
 
                 // Vanilla JS
 
-                let root = new ForecastSummary(data, loc.name, unitType);
+                // let root = new ForecastSummary(data, loc.name, unitType);
 
-                this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
+                // this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
             })
             .then(() => this.clearCurrentDay());
     }
