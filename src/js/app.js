@@ -31,7 +31,7 @@ export default class Controller {
         // this.$miscDetails = document.querySelector('.misc-details');
 
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.$form.onsubmit = e => this.onFormSubmit(e);
+        this.$form.addEventListener('submit', this.onFormSubmit);
     }
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
