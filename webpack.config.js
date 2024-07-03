@@ -14,7 +14,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 module.exports = {
     mode: 'development',
     entry: {
-        app: path.resolve(__dirname, './src/js/app.js')
+        app: path.resolve(__dirname, './src/js/index.js')
     },
     snapshot: {
         managedPaths: []
