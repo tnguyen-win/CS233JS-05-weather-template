@@ -1,9 +1,9 @@
 /** @jsx vNode */
 /* eslint-disable */
-import { vNode, View } from '@ocdla/view/view';
+import { vNode, View } from '@ocdla/view';
 /* eslint-enable */
-import WeatherForecast from './models/WeatherForecast';
-import ForecastSummary from './components/ForecastSummary';
+import Sample from './models/Sample';
+import Forecast from './components/Forecast';
 
 export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
@@ -58,6 +58,15 @@ export default class Controller {
         return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&' + this.apiKey;
     }
 
+    getCurrentWeather(lat, lon, unitType) {
+        // async getForecast(lat, lon) {
+        let forecastUrl = this.getForecastUrl(lat, lon, unitType);
+        // const resp = await fetch(forecastUrl);
+
+        return fetch(forecastUrl).then(resp => resp.json());
+        // return await resp.json();
+    }
+
     getForecast(lat, lon, unitType) {
         // async getForecast(lat, lon) {
         let forecastUrl = this.getForecastUrl(lat, lon, unitType);
@@ -100,31 +109,25 @@ export default class Controller {
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let data = this.getForecast(loc.lat, loc.lon, unitType);
+                let cData = this.getCurrentWeather(loc.lat, loc.lon, unitType);
+                let fData = this.getForecast(loc.lat, loc.lon, unitType);
 
-                return Promise.all([data, loc]);
+                return Promise.all([cData, fData]);
             })
-            .then(forecastAndLoc => {
-                let data, loc;
-
-                [data, loc] = forecastAndLoc;
-
-                // OCDLA JSX
-
-                const root = View.createRoot(this.$forecastSummaries);
-                const wf = new WeatherForecast(data.list);
-                // let summary = new ForecastSummary(wf, data, loc.name, unitType);
-                let summary = new ForecastSummary(wf);
+            .then(struct => {
+                let [current, forecast] = struct;
+                let currentWeatherSample = Sample.fromJson(current);
+                let wf = new WeatherForecast(forecast);
+                let todaysForecast = wf.getToday();
+                let root = View.createRoot('#html');
 
                 root.render(
-                    summary.render(this.$forecastSummaries, this.$forecastDetails)
+                    <Forecast current={currentWeatherSample} future={todaysForecast.getSamples()} />
                 );
 
-                // Vanilla JS
+                // let node = View.createElement(<Forecast current={currentWeatherSample} future={todaysForecast.getSamples()} />);
 
-                // let root = new ForecastSummary(data, loc.name, unitType);
-
-                // this.$forecastSummaries.innerHTML = root.render(this.$forecastSummaries, this.$forecastDetails);
+                // this.$forecastSummaries.appendChild(node);
             })
             .then(() => this.clearCurrentDay());
     }

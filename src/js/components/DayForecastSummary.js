@@ -1,7 +1,7 @@
 /** @jsx vNode */
 /* eslint-disable-next-line */
-import { vNode } from '@ocdla/view/view';
-// import { getWeekday } from '@ocdla/date2';
+import { vNode } from '@ocdla/view';
+import { getWeekday } from '@ocdla/date2';
 
 // OCDLA JSX
 

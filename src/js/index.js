@@ -12,5 +12,3 @@ window.App = app;
 
 // window.onload = () => new JSX_Tests();
 // window.JSX_Tests = jsx_tests;
-
-console.log('a')

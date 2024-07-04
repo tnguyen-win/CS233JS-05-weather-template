@@ -1,6 +1,6 @@
 /** @jsx vNode */
 /* eslint-disable-next-line */
-import { vNode } from '@ocdla/view/view';
+import { vNode } from '@ocdla/view';
 
 export default function JSX_Component({ classes, styles, body }) {
     const inlineStyles = Object.keys(styles || {}).map(key => `${key}: ${styles[key]};`).join(' ');

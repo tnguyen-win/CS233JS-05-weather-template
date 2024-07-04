@@ -1,6 +1,6 @@
 /** @jsx vNode */
 /* eslint-disable */
-import { vNode } from '@ocdla/view/view';
+import { vNode } from '@ocdla/view';
 import ForecastDetails from './ForecastDetails';
 import DayForecastSummary from './DayForecastSummary';
 /* eslint-enable */

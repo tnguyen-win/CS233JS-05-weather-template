@@ -1,6 +1,6 @@
 /** @jsx vNode */
 /* eslint-disable */
-import { vNode, View } from '@ocdla/view/view';
+import { vNode, View } from '@ocdla/view';
 import JSX_Component from './components/JSX_Component';
 /* eslint-enable */
 

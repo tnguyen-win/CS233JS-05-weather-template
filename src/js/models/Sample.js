@@ -1,26 +1,44 @@
-class Sample {
-    constructor() {
-        const SIX_AM = 2;
-        const NOON = 4;
-        const SIX_PM = 6;
-        const NINE_PM = 7;
-        const MORNING = SIX_AM;
-        const DAY = NOON;
-        const EVENING = SIX_PM;
-        const NIGHT = NINE_PM;
+export default class Sample {
+    constructor(timestamp) {
+        this.dt = timestamp;
+        this.date = new Date(timestamp * 1000);
+        this.temp;
+        this.wind;
+        this.pressure;
+        this.description;
+        this.icon;
+    }
 
-        this.dt = new Date(samples[NOON].dt * 1000);
-        this.temp = samples[NOON].main.temp;
-        this.minTemp = this.getLow(samples);
-        this.maxTemp = this.getHigh(samples);
-        this.morningTemp = samples[MORNING].main.temp;
-        this.dayTemp = samples[DAY].main.temp;
-        this.eveningTemp = samples[EVENING].main.temp;
-        this.nightTemp = samples[NIGHT].main.temp;
-        this.description = samples[NOON].weather[0].description;
-        this.icon = samples[NOON].weather[0].icon;
-        this.pressure = samples[NOON].main.pressure;
-        this.wind = samples[NOON].wind.speed;
-        this.humidity = samples[NOON].main.humidity;
+    setTemp(temp) {
+        this.temp = temp;
+    }
+
+    static fromJson(data) {
+        let sample = new Sample(data.dt);
+
+        sample.temp = data.main.temp;
+        sample.wind = data.main.wind;
+        sample.pressure = data.main.pressure;
+        sample.humidity = data.main.humidity;
+        sample.icon = data.weather.icon;
+        sample.description = data.weather.description;
+
+        return sample;
+    }
+
+    static collectionFromJson(json) {
+        let samples = [];
+
+        for (let i = 0; i < json.length; i++) samples.push(Sample.fromJson(json[i]));
+
+        return samples;
+    }
+
+    static getLow(samples) {
+        return samples.reduce((s1, s2) => Math.min(s1.temp, s2.temp));
+    }
+
+    static getHigh(samples) {
+        return samples.reduce((s1, s2) => Math.max(s1.temp, s2.temp));
     }
 }
