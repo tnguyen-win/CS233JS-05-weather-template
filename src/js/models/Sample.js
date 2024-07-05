@@ -9,19 +9,35 @@ export default class Sample {
         this.icon;
     }
 
+    getTime() {
+        return this.date + '';
+    }
+
+    getTemp() {
+        return this.temp + '';
+    }
+
+    getIconUrl() {
+        return 'https://openweathermap.org/img/wn/' + this.icon + '.png';
+    }
+
+    getDescription() {
+        return this.description + '';
+    }
+
     setTemp(temp) {
-        this.temp = temp;
+        this.temp = temp + '';
     }
 
     static fromJson(data) {
         let sample = new Sample(data.dt);
 
         sample.temp = data.main.temp;
-        sample.wind = data.main.wind;
+        sample.wind = data.wind;
         sample.pressure = data.main.pressure;
         sample.humidity = data.main.humidity;
-        sample.icon = data.weather.icon;
-        sample.description = data.weather.description;
+        sample.icon = data.weather[0].icon;
+        sample.description = data.weather[0].description;
 
         return sample;
     }

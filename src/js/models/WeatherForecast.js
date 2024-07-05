@@ -3,8 +3,9 @@ import Sample from './Sample';
 
 export default class WeatherForecast {
     constructor(data) {
-        this.data = data;
         this.dailyForecasts = this.parse(data.list);
+
+        Object.assign(this, ({ data }));
     }
 
     parse(data) {
@@ -20,8 +21,9 @@ export default class WeatherForecast {
         };
         let samples = Sample.collectionFromJson(data);
         let sequence = Object.groupBy(samples, groupByDayFn);
+        let groups = Object.values(sequence);
 
-        for (let group of sequence) {
+        for (let group of groups) {
             let day = new OneDayForecast(group);
 
             days.push(day);
@@ -42,11 +44,11 @@ export default class WeatherForecast {
         return this.dailyForecasts;
     }
 
-    getTemperatureWithUnitType(value, unitType) {
+    static getTemperatureWithUnitType(value, unitType) {
         return unitType === 'Imperial' ? Math.round(value) + '&deg; F' : unitType === 'Metric' ? Math.round(value) + '&deg; C' : ' [Unknown Type]';
     }
 
-    getWindSpeedWithUnitType(value, unitType) {
+    static getWindSpeedWithUnitType(value, unitType) {
         return unitType === 'Imperial' ? value + ' mph' : unitType === 'Metric' ? value + ' mps' : ' [Unknown Type]';
     }
 }

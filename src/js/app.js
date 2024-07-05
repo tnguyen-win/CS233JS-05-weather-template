@@ -1,15 +1,17 @@
-/** @jsx vNode */
+/** @jsx vNode */ /** @jsxFrag 'Fragment' */
 /* eslint-disable */
 import { vNode, View } from '@ocdla/view';
-/* eslint-enable */
 import Sample from './models/Sample';
 import Forecast from './components/Forecast';
+/* eslint-enable */
+import WeatherForecast from './models/WeatherForecast';
 
 export default class Controller {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
     static GEOCODE_ENDPOINT = 'geo/' + Controller.GEOCODE_VERSION + '/zip';
+    static CURRENT_WEATHER_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/weather';
     static FORECAST_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/forecast';
     static API_KEY = process.env.API_KEY;
 
@@ -19,20 +21,27 @@ export default class Controller {
         // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
         // this.geoURL = 'https://api.openweathermap.org/geo/1.0/zip?';
         this.apiKey = Controller.API_KEY;
-
+        this.$body = document.querySelector('body');
+        this.render();
         this.$form = document.querySelector('#zipForm');
-        this.$zipCode = document.querySelector('#zipCode');
-        this.$forecastSummaries = document.querySelector('#forecast-summaries');
-        this.$forecastDetails = document.querySelector('#forecast-details');
+        // this.$zipCode = document.querySelector('#zipCode');
+        this.$forecast = document.querySelector('#forecast');
+        // this.$forecastSummaries = document.querySelector('#forecast-summaries');
+        // this.$forecastDetails = document.querySelector('#forecast-details');
         // this.$dayHeader = document.querySelector('.day-header');
         // this.$weather = document.querySelector('.weather');
-        this.$weatherItems = document.getElementsByClassName('weather-list-item');
+        // this.$weatherItems = document.getElementsByClassName('weather-list-item');
         // this.$temperatureBreakdown = document.querySelector('.temperature-breakdown');
         // this.$miscDetails = document.querySelector('.misc-details');
-
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$form.addEventListener('submit', this.onFormSubmit);
+
+        // this.init();
     }
+
+    // init() {
+    //     this.$form.value = 'abc';
+    // }
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
@@ -49,27 +58,33 @@ export default class Controller {
         // return await resp.json();
     }
 
+    // Example: https://api.openweathermap.org/data/2.5/weather?lat=44.5646&lon=-123.26&units=imperial&lang=en&appid=3b023cc4b7da42b81cd324266c384075
+
+    getCurrentWeatherUrl(lat, lon, unitType, lang) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&' + this.apiKey;
+    }
+
     // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
 
     // addParam()
     // toString()
 
-    getForecastUrl(lat, lon, unitType) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&' + this.apiKey;
+    getForecastUrl(lat, lon, unitType, mode) {
+        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&' + this.apiKey;
     }
 
-    getCurrentWeather(lat, lon, unitType) {
-        // async getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon, unitType);
-        // const resp = await fetch(forecastUrl);
+    getCurrentWeather(lat, lon, unitType, lang) {
+        // async getCurrentWeather(lat, lon) {
+        let currentWeatherUrl = this.getCurrentWeatherUrl(lat, lon, unitType, lang);
+        // const resp = await fetch(currentWeatherUrl);
 
-        return fetch(forecastUrl).then(resp => resp.json());
+        return fetch(currentWeatherUrl).then(resp => resp.json());
         // return await resp.json();
     }
 
-    getForecast(lat, lon, unitType) {
+    getForecast(lat, lon, unitType, mode) {
         // async getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon, unitType);
+        let forecastUrl = this.getForecastUrl(lat, lon, unitType, mode);
         // const resp = await fetch(forecastUrl);
 
         return fetch(forecastUrl).then(resp => resp.json());
@@ -78,7 +93,7 @@ export default class Controller {
 
     clearCurrentDay() {
         this.$form.reset();
-        this.$forecastDetails.classList.add('d-none');
+        // this.$forecastDetails.classList.add('d-none');
     }
 
     onFormSubmit(e) {
@@ -106,29 +121,62 @@ export default class Controller {
         let zipCode = data.get('zipCode');
         let locale = 'US';
         let unitType = 'imperial';
+        let lang = 'en';
+        let mode = 'json';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let cData = this.getCurrentWeather(loc.lat, loc.lon, unitType);
-                let fData = this.getForecast(loc.lat, loc.lon, unitType);
+                let cData = this.getCurrentWeather(loc.lat, loc.lon, unitType, lang);
+                let fData = this.getForecast(loc.lat, loc.lon, unitType, mode);
 
                 return Promise.all([cData, fData]);
             })
             .then(struct => {
                 let [current, forecast] = struct;
+                let city = current.name;
                 let currentWeatherSample = Sample.fromJson(current);
+                let icon = currentWeatherSample.getIconUrl('large');
+                let temp = currentWeatherSample.getTemp();
+                let description = currentWeatherSample.getDescription();
                 let wf = new WeatherForecast(forecast);
                 let todaysForecast = wf.getToday();
-                let root = View.createRoot('#html');
+                let root = View.createRoot(this.$forecast);
 
-                root.render(
-                    <Forecast current={currentWeatherSample} future={todaysForecast.getSamples()} />
-                );
+                // this.$forecast.classList.remove('hidden');
 
-                // let node = View.createElement(<Forecast current={currentWeatherSample} future={todaysForecast.getSamples()} />);
-
-                // this.$forecastSummaries.appendChild(node);
+                root.render(<Forecast city={city} icon={icon} temp={temp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
             })
             .then(() => this.clearCurrentDay());
+    }
+
+    render() {
+        let root = View.createRoot(this.$body);
+
+        root.render(
+            // <div class='bg-no-repeat bg-gradient-to-br from-[rgb(60,60,60)] from-0% from-[rgb(30,30,30)] via-50% to-[rgb(45,45,45)] to-100%'>
+            <>
+                {/* <div>Test</div> */}
+                <div class='flex flex-col gap-4 lg:w-1/2 container m-auto px-4 py-20 lg:py-40'>
+                    <form id='zipForm' class='flex'>
+                        <input
+                            class='w-full p-4'
+                            type='input'
+                            id='zipCode'
+                            name='zipCode'
+                            placeholder='Enter a zip code'
+                            value=''
+                            required
+                        />
+                        <button
+                            class='bg-green-300 font-bold text-nowrap p-4'
+                            type='submit'
+                        >
+                            GET FORECAST
+                        </button>
+                    </form>
+                    <div id='forecast' class='font-medium text-center text-white'></div>
+                </div>
+            </>
+        );
     }
 }

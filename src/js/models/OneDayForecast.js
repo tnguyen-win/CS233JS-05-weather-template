@@ -1,4 +1,4 @@
-import Samples from './Samples';
+import Samples from './Sample';
 
 export default class OneDayForecast {
     constructor(samples) {
