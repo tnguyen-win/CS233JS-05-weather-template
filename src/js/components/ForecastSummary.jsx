@@ -22,23 +22,10 @@ export default class ForecastSummary extends Component {
     // render($forecastSummaries, $forecastDetails) {
     render() {
         const days = this.forecast.getDailyForecasts();
-        // let summaryHtml = '';
-
         // const displayForecastDetails = data => {
-        // OCDLA JSX
-
-        // $forecastDetails.innerHTML = <ForecastDetails day={days[data.index]} _name={this.city} forecast={this.forecast} unitType={this.unitType} />;
-        // $forecastDetails.classList.remove('d-none');
-
-        // Vanilla JS
-
-        // $forecastDetails.innerHTML = ForecastDetails(days[data.index], this.city, this.forecast, this.unitType);
-        // $forecastDetails.classList.remove('d-none');
-        // };
-
-        // this.delegate('click', $forecastSummaries, displayForecastDetails);
-
-        // OCDLA JSX
+        //     $forecastDetails.innerHTML = <ForecastDetails day={days[data.index]} _name={this.city} forecast={this.forecast} unitType={this.unitType} />;
+        //     $forecastDetails.classList.remove('d-none');
+        // }
 
         return (
             <div>
@@ -55,11 +42,5 @@ export default class ForecastSummary extends Component {
                 })}
             </div>
         );
-
-        // Vanilla JS
-
-        // for (const [i, day] of days.entries()) summaryHtml += DayForecastSummary(day, i, this.forecast, this.unitType);
-
-        // return $forecastSummaries.innerHTML = summaryHtml;
     };
 }
