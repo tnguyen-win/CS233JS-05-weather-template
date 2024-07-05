@@ -23,7 +23,8 @@ module.exports = {
         followSymlinks: true
     },
     resolve: {
-        symlinks: false
+        symlinks: false,
+        extensions: ['.js', '.jsx']
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -44,7 +45,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/i,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules|dev_modules)/,
                 use: {
                     loader: 'babel-loader',

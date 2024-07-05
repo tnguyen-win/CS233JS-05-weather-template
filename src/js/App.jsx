@@ -6,13 +6,13 @@ import Forecast from './components/Forecast';
 /* eslint-enable */
 import WeatherForecast from './models/WeatherForecast';
 
-export default class Controller {
+export default class App {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
-    static GEOCODE_ENDPOINT = 'geo/' + Controller.GEOCODE_VERSION + '/zip';
-    static CURRENT_WEATHER_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/weather';
-    static FORECAST_ENDPOINT = 'data/' + Controller.FORECAST_VERSION + '/forecast';
+    static GEOCODE_ENDPOINT = 'geo/' + App.GEOCODE_VERSION + '/zip';
+    static CURRENT_WEATHER_ENDPOINT = 'data/' + App.FORECAST_VERSION + '/weather';
+    static FORECAST_ENDPOINT = 'data/' + App.FORECAST_VERSION + '/forecast';
     static API_KEY = process.env.API_KEY;
 
     constructor() {
@@ -20,7 +20,7 @@ export default class Controller {
         // this.geoURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + GEOCODE_ENDPOINT + '?';
         // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
         // this.geoURL = 'https://api.openweathermap.org/geo/1.0/zip?';
-        this.apiKey = Controller.API_KEY;
+        this.apiKey = App.API_KEY;
         this.$body = document.querySelector('body');
         this.render();
         this.$form = document.querySelector('#zipForm');
@@ -46,7 +46,7 @@ export default class Controller {
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
     getGeocodeUrl(zipCode, country) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + this.apiKey;
     }
 
     getCoordinates(zipCode, country) {
@@ -61,7 +61,7 @@ export default class Controller {
     // Example: https://api.openweathermap.org/data/2.5/weather?lat=44.5646&lon=-123.26&units=imperial&lang=en&appid=3b023cc4b7da42b81cd324266c384075
 
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&' + this.apiKey;
     }
 
     // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
@@ -70,7 +70,7 @@ export default class Controller {
     // toString()
 
     getForecastUrl(lat, lon, unitType, mode) {
-        return 'https://' + Controller.OPEN_WEATHER_MAP_DOMAIN + '/' + Controller.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&' + this.apiKey;
     }
 
     getCurrentWeather(lat, lon, unitType, lang) {
@@ -155,7 +155,6 @@ export default class Controller {
         root.render(
             // <div class='bg-no-repeat bg-gradient-to-br from-[rgb(60,60,60)] from-0% from-[rgb(30,30,30)] via-50% to-[rgb(45,45,45)] to-100%'>
             <>
-                {/* <div>Test</div> */}
                 <div class='flex flex-col gap-4 lg:w-1/2 container m-auto px-4 py-20 lg:py-40'>
                     <form id='zipForm' class='flex'>
                         <input
