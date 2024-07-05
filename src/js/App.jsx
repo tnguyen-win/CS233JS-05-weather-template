@@ -25,7 +25,7 @@ export default class App {
         this.render();
         this.$form = document.querySelector('#zipForm');
         // this.$zipCode = document.querySelector('#zipCode');
-        this.$forecast = document.querySelector('#forecast');
+        // this.$forecast = document.querySelector('#forecast');
         // this.$forecastSummaries = document.querySelector('#forecast-summaries');
         // this.$forecastDetails = document.querySelector('#forecast-details');
         // this.$dayHeader = document.querySelector('.day-header');
@@ -134,9 +134,11 @@ export default class App {
                 let description = currentWeatherSample.getDescription();
                 let wf = new WeatherForecast(forecast);
                 let todaysForecast = wf.getToday();
-                let root = View.createRoot(this.$forecast);
+                // let root = View.createRoot(this.$forecast);
+                let $forecast = document.querySelector('#forecast');
+                let root = View.createRoot($forecast);
 
-                // this.$forecast.classList.remove('hidden');
+                // $forecast.classList.remove('hidden');
 
                 root.render(<Forecast city={city} icon={icon} temp={temp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
             })
