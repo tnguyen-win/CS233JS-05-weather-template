@@ -45,7 +45,7 @@ export default class Sample {
     static collectionFromJson(json) {
         let samples = [];
 
-        for (let i = 0; i < json.length; i++) samples.push(Sample.fromJson(json[i]));
+        for (const i in json) samples.push(Sample.fromJson(json[i]));
 
         return samples;
     }

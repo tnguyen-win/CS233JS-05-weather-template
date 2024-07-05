@@ -10,18 +10,18 @@ export default class WeatherForecast {
 
     parse(data) {
         let days = [];
-        let groupByDayFn = ({ dt }) => {
-            let d = new Date(dt * 1000);
-            let m = d.getMonth() + 1;
-            let day = d.getDate();
-            let y = d.getFullYear();
-            let key = y + '-' + m + '-' + day;
+        const groupByDayFn = ({ dt }) => {
+            const d = new Date(dt * 1000);
+            const m = d.getMonth() + 1;
+            const day = d.getDate();
+            const y = d.getFullYear();
+            const key = y + '-' + m + '-' + day;
 
             return key;
         };
         let samples = Sample.collectionFromJson(data);
-        let sequence = Object.groupBy(samples, groupByDayFn);
-        let groups = Object.values(sequence);
+        const sequence = Object.groupBy(samples, groupByDayFn);
+        const groups = Object.values(sequence);
 
         for (let group of groups) {
             let day = new OneDayForecast(group);
