@@ -35,13 +35,7 @@ export default class App {
         // this.$miscDetails = document.querySelector('.misc-details');
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$form.addEventListener('submit', this.onFormSubmit);
-
-        // this.init();
     }
-
-    // init() {
-    //     this.$form.value = 'abc';
-    // }
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
@@ -151,11 +145,12 @@ export default class App {
 
     render() {
         let root = View.createRoot(this.$body);
+        let defaultFormValue = true ? '97330' : '';
 
         root.render(
             // <div class='bg-no-repeat bg-gradient-to-br from-[rgb(60,60,60)] from-0% from-[rgb(30,30,30)] via-50% to-[rgb(45,45,45)] to-100%'>
             <>
-                <div class='flex flex-col gap-4 lg:w-1/2 container m-auto px-4 py-20 lg:py-40'>
+                <div class='flex flex-col gap-4 lg:w-1/2 text-black container m-auto px-4 py-20 lg:py-40'>
                     <form id='zipForm' class='flex'>
                         <input
                             class='w-full p-4'
@@ -163,7 +158,7 @@ export default class App {
                             id='zipCode'
                             name='zipCode'
                             placeholder='Enter a zip code'
-                            value=''
+                            value={defaultFormValue}
                             required
                         />
                         <button
