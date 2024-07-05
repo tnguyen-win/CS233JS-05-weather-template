@@ -45,7 +45,7 @@ export default class App {
 
     getCoordinates(zipCode, country) {
         // async getCoordinates(zipCode, country) {
-        let geocodeUrl = this.getGeocodeUrl(zipCode, country);
+        const geocodeUrl = this.getGeocodeUrl(zipCode, country);
         // const resp = await fetch(geocodeUrl);
 
         return fetch(geocodeUrl).then(resp => resp.json());
@@ -69,7 +69,7 @@ export default class App {
 
     getCurrentWeather(lat, lon, unitType, lang) {
         // async getCurrentWeather(lat, lon) {
-        let currentWeatherUrl = this.getCurrentWeatherUrl(lat, lon, unitType, lang);
+        const currentWeatherUrl = this.getCurrentWeatherUrl(lat, lon, unitType, lang);
         // const resp = await fetch(currentWeatherUrl);
 
         return fetch(currentWeatherUrl).then(resp => resp.json());
@@ -78,7 +78,7 @@ export default class App {
 
     getForecast(lat, lon, unitType, mode) {
         // async getForecast(lat, lon) {
-        let forecastUrl = this.getForecastUrl(lat, lon, unitType, mode);
+        const forecastUrl = this.getForecastUrl(lat, lon, unitType, mode);
         // const resp = await fetch(forecastUrl);
 
         return fetch(forecastUrl).then(resp => resp.json());
@@ -110,33 +110,33 @@ export default class App {
 
         e.preventDefault();
 
-        let form = e.target;
-        let data = new FormData(form);
-        let zipCode = data.get('zipCode');
-        let locale = 'US';
-        let unitType = 'imperial';
-        let lang = 'en';
-        let mode = 'json';
+        const form = e.target;
+        const data = new FormData(form);
+        const zipCode = data.get('zipCode');
+        const locale = 'US';
+        const unitType = 'imperial';
+        const lang = 'en';
+        const mode = 'json';
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                let cData = this.getCurrentWeather(loc.lat, loc.lon, unitType, lang);
-                let fData = this.getForecast(loc.lat, loc.lon, unitType, mode);
+                const cData = this.getCurrentWeather(loc.lat, loc.lon, unitType, lang);
+                const fData = this.getForecast(loc.lat, loc.lon, unitType, mode);
 
                 return Promise.all([cData, fData]);
             })
             .then(struct => {
-                let [current, forecast] = struct;
-                let city = current.name;
-                let currentWeatherSample = Sample.fromJson(current);
-                let icon = currentWeatherSample.getIconUrl('large');
-                let temp = currentWeatherSample.getTemp();
-                let description = currentWeatherSample.getDescription();
-                let wf = new WeatherForecast(forecast);
-                let todaysForecast = wf.getToday();
-                // let root = View.createRoot(this.$forecast);
-                let $forecast = document.querySelector('#forecast');
-                let root = View.createRoot($forecast);
+                const [current, forecast] = struct;
+                const city = current.name;
+                const currentWeatherSample = Sample.fromJson(current);
+                const icon = currentWeatherSample.getIconUrl('large');
+                const temp = currentWeatherSample.getTemp();
+                const description = currentWeatherSample.getDescription();
+                const wf = new WeatherForecast(forecast);
+                const todaysForecast = wf.getToday();
+                // const root = View.createRoot(this.$forecast);
+                const $forecast = document.querySelector('#forecast');
+                const root = View.createRoot($forecast);
 
                 // $forecast.classList.remove('hidden');
 
@@ -146,8 +146,8 @@ export default class App {
     }
 
     render() {
-        let root = View.createRoot(this.$body);
-        let defaultFormValue = true ? '97330' : '';
+        const root = View.createRoot(this.$body);
+        const defaultFormValue = true ? '97330' : '';
 
         root.render(
             // <div class='bg-no-repeat bg-gradient-to-br from-[rgb(60,60,60)] from-0% from-[rgb(30,30,30)] via-50% to-[rgb(45,45,45)] to-100%'>
