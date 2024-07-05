@@ -1,4 +1,4 @@
-/** @jsx vNode */ /** @jsxFrag 'Fragment' */
+/** @jsx vNode */
 /* eslint-disable */
 import { vNode } from '@ocdla/view';
 import Sample from './Sample';
@@ -15,8 +15,8 @@ export default function Forecast({ city, icon, temp, description, future }) {
     let jsxArray = future.map(sample => <Sample icon={sample.getIconUrl()} temp={sample.getTemp()} time={sample.getTime()} />);
 
     return (
-        <>
-            <div class='flex flex-col items-center justify-center gap-4 bg-black border border-b-0 border-white/50 p-8'>
+        <div class='flex flex-col gap-4'>
+            <div class='flex flex-col items-center justify-center gap-4 rounded-lg bg-sky-700/20 border-4 border-white p-8'>
                 <h1 class='text-6xl'>
                     {city}
                 </h1>
@@ -28,9 +28,9 @@ export default function Forecast({ city, icon, temp, description, future }) {
                     {description}
                 </h3>
             </div>
-            <div class='flex flex-col lg:flex-row items-center justify-center'>
+            <div class='flex flex-col lg:flex-row items-center justify-center gap-4'>
                 {jsxArray}
             </div>
-        </>
+        </div>
     );
 };

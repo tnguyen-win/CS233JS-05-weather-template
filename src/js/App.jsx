@@ -1,4 +1,4 @@
-/** @jsx vNode */ /** @jsxFrag 'Fragment' */
+/** @jsx vNode */
 /* eslint-disable */
 import { vNode, View } from '@ocdla/view';
 import Sample from './models/Sample';
@@ -150,29 +150,26 @@ export default class App {
         const defaultFormValue = true ? '97330' : '';
 
         root.render(
-            // <div class='bg-no-repeat bg-gradient-to-br from-[rgb(60,60,60)] from-0% from-[rgb(30,30,30)] via-50% to-[rgb(45,45,45)] to-100%'>
-            <>
-                <div class='flex flex-col gap-4 lg:w-1/2 text-black container m-auto px-4 py-20 lg:py-40'>
-                    <form id='zipForm' class='flex'>
-                        <input
-                            class='w-full p-4'
-                            type='input'
-                            id='zipCode'
-                            name='zipCode'
-                            placeholder='Enter a zip code'
-                            value={defaultFormValue}
-                            required
-                        />
-                        <button
-                            class='bg-green-300 font-bold text-nowrap p-4'
-                            type='submit'
-                        >
-                            GET FORECAST
-                        </button>
-                    </form>
-                    <div id='forecast' class='font-medium text-center text-white'></div>
-                </div>
-            </>
+            <div class='flex flex-col gap-4 lg:w-1/2 font-black text-black m-4 lg:m-0'>
+                <form id='zipForm' class='flex rounded-lg border-2 border-black/50'>
+                    <input
+                        class='w-full rounded-l-lg border-r-2 border-black/50 p-4'
+                        type='input'
+                        id='zipCode'
+                        name='zipCode'
+                        placeholder='Enter a zip code'
+                        value={defaultFormValue}
+                        required
+                    />
+                    <button
+                        class='rounded-r-lg bg-green-300 text-nowrap p-4'
+                        type='submit'
+                    >
+                        GET FORECAST
+                    </button>
+                </form>
+                <div id='forecast' class='flex flex-col gap-4 text-center text-white'></div>
+            </div>
         );
     }
 }
