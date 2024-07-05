@@ -20,7 +20,7 @@ export default function Forecast({ city, icon, temp, description, future }) {
                 <h1 class='text-6xl'>
                     {city}
                 </h1>
-                <img src={icon} alt={'Forecast status icon.'} width={64} height={64} />
+                <img src={icon} alt={'Forecast status icon.'} width={128} height={128} />
                 <h3 class='text-3xl'>
                     {temp}
                 </h3>
