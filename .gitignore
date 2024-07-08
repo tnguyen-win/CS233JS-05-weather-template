@@ -87,6 +87,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
+.env
 .env.local
 
 # npm environment variables file

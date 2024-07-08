@@ -35,12 +35,14 @@ export default class App {
         // this.$miscDetails = document.querySelector('.misc-details');
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.$form.addEventListener('submit', this.onFormSubmit);
+
+        if (!this.apiKey) alert('API key was unspecified.');
     }
 
     // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
     getGeocodeUrl(zipCode, country) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&appid=' + this.apiKey;
     }
 
     getCoordinates(zipCode, country) {
@@ -55,7 +57,7 @@ export default class App {
     // Example: https://api.openweathermap.org/data/2.5/weather?lat=44.5646&lon=-123.26&units=imperial&lang=en&appid=3b023cc4b7da42b81cd324266c384075
 
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&appid=' + this.apiKey;
     }
 
     // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
@@ -64,7 +66,7 @@ export default class App {
     // toString()
 
     getForecastUrl(lat, lon, unitType, mode) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&' + this.apiKey;
+        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&appid=' + this.apiKey;
     }
 
     getCurrentWeather(lat, lon, unitType, lang) {
