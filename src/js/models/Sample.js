@@ -18,7 +18,7 @@ export default class Sample {
     }
 
     getIconUrl(size) {
-        return 'https://openweathermap.org/img/wn/' + this.icon + (size === 'large' ? '@2x' : '') + '.png';
+        return 'https://openweathermap.org/img/wn/' + this.icon + (size === 'large' ? '@4x' : size === 'medium' ? '@2x' : '') + '.png';
     }
 
     getDescription() {
