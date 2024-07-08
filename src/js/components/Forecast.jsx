@@ -10,9 +10,13 @@ import Sample from './Sample';
     <DailyForecasts summaries />
 </div> */}
 
-export default function Forecast({ city, icon, temp, description, future }) {
+export default function Forecast({ weatherForecast, unitType, precision, city, icon, temp, description, future }) {
     // let summaries = props.summaries;
-    let jsxArray = future.map(sample => <Sample icon={sample.getIconUrl()} temp={sample.getTemp()} time={sample.getTime()} />);
+    let jsxArray = future.map(sample => {
+        const formattedTemp = weatherForecast.getTemperatureWithUnitType(sample.getTemp(), unitType, precision);
+
+        return <Sample icon={sample.getIconUrl()} temp={formattedTemp} time={sample.getTime()} />
+    });
 
     return (
         <div class='flex flex-col gap-4'>

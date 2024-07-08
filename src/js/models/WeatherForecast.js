@@ -44,11 +44,22 @@ export default class WeatherForecast {
         return this.dailyForecasts;
     }
 
-    static getTemperatureWithUnitType(value, unitType) {
-        return unitType === 'Imperial' ? Math.round(value) + '&deg; F' : unitType === 'Metric' ? Math.round(value) + '&deg; C' : ' [Unknown Type]';
+    getTemperatureWithUnitType(value, unitType, precision) {
+        var precisionMultiplier = Math.pow(10, precision || 0);
+        var roundedValue = Math.round(value * precisionMultiplier) / precisionMultiplier;
+
+        switch (unitType) {
+            case 'kelvin':
+                return roundedValue + ' (K)';
+            case 'imperial':
+            case 'metric':
+                return roundedValue + ' (' + String.fromCharCode(176) + (unitType === 'imperial' ? 'F)' : ' C)');
+            default:
+                return '[Unknown Type]';
+        }
     }
 
-    static getWindSpeedWithUnitType(value, unitType) {
-        return unitType === 'Imperial' ? value + ' mph' : unitType === 'Metric' ? value + ' mps' : ' [Unknown Type]';
+    getWindSpeedWithUnitType(value, unitType) {
+        return unitType === 'imperial' ? value + ' mph' : unitType === 'metric' ? value + ' mps' : ' [Unknown Type]';
     }
 }

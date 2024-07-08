@@ -97,6 +97,7 @@ export default class App {
             Supported Forecast Suffix Types:
             • Standard
                 • Kelvin
+                • Meters per Second
             • Imperial
                 • Fahrenheit
                 • Miles per Hour
@@ -105,7 +106,6 @@ export default class App {
                 • Meters per Second
 
             Notes:
-            • Lowercase unit type.
             • Manually convert mathematically.
                 • Server-side (faster) versus client-side (local access for without internet).
         */
@@ -116,9 +116,12 @@ export default class App {
         const data = new FormData(form);
         const zipCode = data.get('zipCode');
         const locale = 'US';
+        // const unitType = 'kelvin';
         const unitType = 'imperial';
+        // const unitType = 'metric';
         const lang = 'en';
         const mode = 'json';
+        const precision = 1;
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
@@ -134,15 +137,16 @@ export default class App {
                 const icon = currentWeatherSample.getIconUrl('large');
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
-                const wf = new WeatherForecast(forecast);
-                const todaysForecast = wf.getToday();
+                const wF = new WeatherForecast(forecast);
+                const formattedTemp = wF.getTemperatureWithUnitType(temp, unitType, precision);
+                const todaysForecast = wF.getToday();
                 // const root = View.createRoot(this.$forecast);
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
 
                 // $forecast.classList.remove('hidden');
 
-                root.render(<Forecast city={city} icon={icon} temp={temp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
+                root.render(<Forecast weatherForecast={wF} unitType={unitType} precision={precision} city={city} icon={icon} temp={formattedTemp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
             })
             .then(() => this.clearCurrentDay());
     }
