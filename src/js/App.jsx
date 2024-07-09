@@ -16,30 +16,10 @@ export default class App {
     static API_KEY = process.env.API_KEY;
 
     constructor() {
-        // this.weatherURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + FORECAST_ENDPOINT + '?units=imperial&';
-        // this.geoURL = 'https://' + OPEN_WEATHER_MAP_DOMAIN + '/' + GEOCODE_ENDPOINT + '?';
-        // this.weatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&';
-        // this.geoURL = 'https://api.openweathermap.org/geo/1.0/zip?';
         this.apiKey = App.API_KEY;
-        this.$body = document.querySelector('body');
-        this.render();
-        this.$form = document.querySelector('#zipForm');
-        // this.$zipCode = document.querySelector('#zipCode');
-        // this.$forecast = document.querySelector('#forecast');
-        // this.$forecastSummaries = document.querySelector('#forecast-summaries');
-        // this.$forecastDetails = document.querySelector('#forecast-details');
-        // this.$dayHeader = document.querySelector('.day-header');
-        // this.$weather = document.querySelector('.weather');
-        // this.$weatherItems = document.getElementsByClassName('weather-list-item');
-        // this.$temperatureBreakdown = document.querySelector('.temperature-breakdown');
-        // this.$miscDetails = document.querySelector('.misc-details');
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.$form.addEventListener('submit', this.onFormSubmit);
 
         if (!this.apiKey) alert('API key was unspecified.');
     }
-
-    // fetch(`${this.geoURL}zip=${this.state.zipCode},US&${this.apiKey}`)
 
     getGeocodeUrl(zipCode, country) {
         return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&appid=' + this.apiKey;
@@ -54,13 +34,9 @@ export default class App {
         // return await resp.json();
     }
 
-    // Example: https://api.openweathermap.org/data/2.5/weather?lat=44.5646&lon=-123.26&units=imperial&lang=en&appid=3b023cc4b7da42b81cd324266c384075
-
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
         return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&appid=' + this.apiKey;
     }
-
-    // fetch(`${this.weatherURL}lat=${this.state.city.lat}&lon=${this.state.city.lon}&${this.apiKey}`)
 
     // addParam()
     // toString()
@@ -87,8 +63,9 @@ export default class App {
         // return await resp.json();
     }
 
-    clearCurrentDay() {
-        this.$form.reset();
+    clearCurrentDay(e) {
+        e[0].value = '';
+        // e.reset();
         // this.$forecastDetails.classList.add('d-none');
     }
 
@@ -108,6 +85,9 @@ export default class App {
             Notes:
             • Manually convert mathematically.
                 • Server-side (faster) versus client-side (local access for without internet).
+            • Minimum & maximum ZIP code numbers:
+                • Min = 00501
+                • Min = 99950
         */
 
         e.preventDefault();
@@ -140,7 +120,6 @@ export default class App {
                 const wF = new WeatherForecast(forecast);
                 const formattedTemp = wF.getTemperatureWithUnitType(temp, unitType, precision);
                 const todaysForecast = wF.getToday();
-                // const root = View.createRoot(this.$forecast);
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
 
@@ -148,20 +127,17 @@ export default class App {
 
                 root.render(<Forecast weatherForecast={wF} unitType={unitType} precision={precision} city={city} icon={icon} temp={formattedTemp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
             })
-            .then(() => this.clearCurrentDay());
+            .then(() => this.clearCurrentDay(e.target));
     }
 
     render() {
-        const root = View.createRoot(this.$body);
         const defaultFormValue = true ? '97330' : '';
 
-        root.render(
+        return (
             <div class='flex flex-col gap-4 lg:w-1/2 font-black text-black m-4 lg:m-0'>
-                <form id='zipForm' class='flex rounded-lg border-2 border-black/50'>
+                <form class='flex rounded-lg border-2 border-black/50' onsubmit={this.onFormSubmit.bind(this)}>
                     <input
-                        class='w-full rounded-l-lg border-r-2 border-black/50 p-4'
-                        type='input'
-                        id='zipCode'
+                        class='w-full rounded-l-lg placeholder-[rgba(0,0,0,0.25)] border-r-2 border-black/50 p-4'
                         name='zipCode'
                         placeholder='Enter a zip code'
                         value={defaultFormValue}
@@ -174,8 +150,11 @@ export default class App {
                         GET FORECAST
                     </button>
                 </form>
-                <div id='forecast' class='flex flex-col gap-4 text-center text-white'></div>
-            </div>
+                <div
+                    id='forecast'
+                    class='flex flex-col gap-4 text-center text-white'
+                ></div>
+            </div >
         );
     }
 }

@@ -1,7 +1,7 @@
 @ECHO OFF
 
 ECHO ----------------
-ECHO 1 - [ development - npm run watch:webpack ]
+ECHO 1 - [ development - npm run start ]
 ECHO 2 - [ development - npm run lint ]
 ECHO 3 - [ development - npm run lint-fix ]
 ECHO 7 - [ development - publish to NPMJS - lib-component ]
@@ -13,7 +13,7 @@ ECHO ----------------
 SET /P input="ENTER: "
 
 IF %input% == 1 (
-    CALL npm run watch:webpack
+    CALL npm run start
 )
 
 IF %input% == 2 (

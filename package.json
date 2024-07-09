@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.html",
     "scripts": {
-        "watch:webpack": "webpack serve",
+        "start": "webpack serve",
         "lint": "eslint dev_modules src",
         "lint-fix": "eslint --fix dev_modules src",
         "build": "webpack --config webpack.config.js",
@@ -33,7 +33,7 @@
         "@ocdla/http2": "^0.1.0",
         "@ocdla/local-storage-cache": "^0.1.0",
         "@ocdla/url": "^0.1.0",
-        "@ocdla/view": "^2.3.10",
+        "@ocdla/view": "^2.3.14",
         "babel-loader": "^8.2.5",
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.11.0",
