@@ -11,7 +11,8 @@ export default class App {
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
     static GEOCODE_ENDPOINT = 'geo/' + App.GEOCODE_VERSION + '/zip';
-    static CURRENT_WEATHER_ENDPOINT = 'data/' + App.FORECAST_VERSION + '/weather';
+    static CURRENT_WEATHER_ENDPOINT =
+        'data/' + App.FORECAST_VERSION + '/weather';
     static FORECAST_ENDPOINT = 'data/' + App.FORECAST_VERSION + '/forecast';
     static API_KEY = process.env.API_KEY;
 
@@ -22,7 +23,18 @@ export default class App {
     }
 
     getGeocodeUrl(zipCode, country) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.GEOCODE_ENDPOINT + '?zip=' + zipCode + ',' + country + '&appid=' + this.apiKey;
+        return (
+            'https://' +
+            App.OPEN_WEATHER_MAP_DOMAIN +
+            '/' +
+            App.GEOCODE_ENDPOINT +
+            '?zip=' +
+            zipCode +
+            ',' +
+            country +
+            '&appid=' +
+            this.apiKey
+        );
     }
 
     getCoordinates(zipCode, country) {
@@ -35,19 +47,54 @@ export default class App {
     }
 
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.CURRENT_WEATHER_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&lang=' + lang + '&appid=' + this.apiKey;
+        return (
+            'https://' +
+            App.OPEN_WEATHER_MAP_DOMAIN +
+            '/' +
+            App.CURRENT_WEATHER_ENDPOINT +
+            '?units=' +
+            unitType +
+            '&lat=' +
+            lat +
+            '&lon=' +
+            lon +
+            '&lang=' +
+            lang +
+            '&appid=' +
+            this.apiKey
+        );
     }
 
     // addParam()
     // toString()
 
     getForecastUrl(lat, lon, unitType, mode) {
-        return 'https://' + App.OPEN_WEATHER_MAP_DOMAIN + '/' + App.FORECAST_ENDPOINT + '?units=' + unitType + '&lat=' + lat + '&lon=' + lon + '&mode=' + mode + '&appid=' + this.apiKey;
+        return (
+            'https://' +
+            App.OPEN_WEATHER_MAP_DOMAIN +
+            '/' +
+            App.FORECAST_ENDPOINT +
+            '?units=' +
+            unitType +
+            '&lat=' +
+            lat +
+            '&lon=' +
+            lon +
+            '&mode=' +
+            mode +
+            '&appid=' +
+            this.apiKey
+        );
     }
 
     getCurrentWeather(lat, lon, unitType, lang) {
         // async getCurrentWeather(lat, lon) {
-        const currentWeatherUrl = this.getCurrentWeatherUrl(lat, lon, unitType, lang);
+        const currentWeatherUrl = this.getCurrentWeatherUrl(
+            lat,
+            lon,
+            unitType,
+            lang
+        );
         // const resp = await fetch(currentWeatherUrl);
 
         return fetch(currentWeatherUrl).then(resp => resp.json());
@@ -105,8 +152,18 @@ export default class App {
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
-                const cData = this.getCurrentWeather(loc.lat, loc.lon, unitType, lang);
-                const fData = this.getForecast(loc.lat, loc.lon, unitType, mode);
+                const cData = this.getCurrentWeather(
+                    loc.lat,
+                    loc.lon,
+                    unitType,
+                    lang
+                );
+                const fData = this.getForecast(
+                    loc.lat,
+                    loc.lon,
+                    unitType,
+                    mode
+                );
 
                 return Promise.all([cData, fData]);
             })
@@ -118,14 +175,35 @@ export default class App {
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
                 const wF = new WeatherForecast(forecast);
-                const formattedTemp = wF.getTemperatureWithUnitType(temp, unitType, precision);
+                const formattedTemp =
+                    WeatherForecast.getTemperatureWithUnitType(
+                        temp,
+                        unitType,
+                        precision
+                    );
                 const todaysForecast = wF.getToday();
+                const samples = todaysForecast.getSamples();
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
 
                 // $forecast.classList.remove('hidden');
 
-                root.render(<Forecast weatherForecast={wF} unitType={unitType} precision={precision} city={city} icon={icon} temp={formattedTemp} description={description} current={currentWeatherSample} future={todaysForecast.getSamples()} />);
+                // console.log(forecast);
+
+                root.render(
+                    <Forecast
+                        unitType={unitType}
+                        precision={precision}
+                        current={{
+                            city,
+                            icon,
+                            temp: formattedTemp,
+                            description
+                        }}
+                        future={samples}
+                        summaries={forecast.list}
+                    />
+                );
             })
             .then(() => this.clearCurrentDay(e.target));
     }
@@ -134,8 +212,10 @@ export default class App {
         const defaultFormValue = true ? '97330' : '';
 
         return (
-            <div class='flex flex-col gap-4 lg:w-1/2 font-black text-black m-4 lg:m-0'>
-                <form class='flex rounded-lg border-2 border-black/50' onsubmit={this.onFormSubmit.bind(this)}>
+            <div class='flex flex-col gap-4 lg:w-1/2 font-black text-black m-4 lg:my-10'>
+                <form
+                    class='flex rounded-lg border-2 border-black/50'
+                    onsubmit={this.onFormSubmit.bind(this)}>
                     <input
                         class='w-full rounded-l-lg placeholder-[rgba(0,0,0,0.25)] border-r-2 border-black/50 p-4'
                         name='zipCode'
@@ -145,16 +225,14 @@ export default class App {
                     />
                     <button
                         class='rounded-r-lg bg-green-300 text-nowrap p-4'
-                        type='submit'
-                    >
+                        type='submit'>
                         GET FORECAST
                     </button>
                 </form>
                 <div
                     id='forecast'
-                    class='flex flex-col gap-4 text-center text-white'
-                ></div>
-            </div >
+                    class='flex flex-col gap-4 text-center text-white'></div>
+            </div>
         );
     }
 }

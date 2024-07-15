@@ -22,24 +22,19 @@ export default [
             'no-undef': 'off',
             'no-tabs': 'warn',
             'no-case-declarations': 'off',
-            'indent': [
+            indent: [
                 'warn',
                 4,
                 {
-                    'SwitchCase': 1
+                    SwitchCase: 1,
+                    ignoredNodes: ['ConditionalExpression']
                 }
             ],
-            'quotes': [
-                'warn',
-                'single'
-            ],
-            'semi': [
-                'warn',
-                'always'
-            ],
+            quotes: ['warn', 'single'],
+            semi: ['warn', 'always'],
             'no-array-constructor': 'warn',
             'no-unused-vars': 'warn',
-            'eqeqeq': 'warn',
+            eqeqeq: 'warn',
             'no-console': 'warn'
         }
     }

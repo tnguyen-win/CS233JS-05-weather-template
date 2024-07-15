@@ -15,4 +15,4 @@ export default function JSX_Tests() {
             body='Hello World'
         />
     );
-};
+}

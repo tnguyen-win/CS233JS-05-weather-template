@@ -8,6 +8,7 @@
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": "active",
     "editor.linkedEditing": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "files.insertFinalNewline": true,
     "html.format.wrapAttributes": "force-expand-multiline",
     "html.validate.scripts": true,

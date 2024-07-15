@@ -18,7 +18,7 @@ module.exports = {
     },
     snapshot: {
         managedPaths: [
-            /^(.+?[\\/]node_modules[\\/](@abc[\\/]xyz|@abc[\\/]zyx)([\\/]|$))/,
+            /^(.+?[\\/]node_modules[\\/](@abc[\\/]xyz|@abc[\\/]zyx)([\\/]|$))/
         ]
     },
     watchOptions: {
@@ -61,18 +61,14 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'postcss-loader']
             },
             {
-                test: /.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
-            },
-            {
                 test: /\.(svg|eot|ttf|woff|woff2)$/i,
                 type: 'asset/resource'
             },
             {
                 test: /\.(png|jpg|gif)$/i,
                 type: 'asset/resource'
-            },
-        ],
+            }
+        ]
     },
     plugins: [
         new dotenvWebpack({
@@ -84,7 +80,7 @@ module.exports = {
             chunks: ['app'],
             inject: 'body',
             filename: 'index.html'
-        }),
+        })
         /* new copyPlugin({
           patterns: [
             {
@@ -94,5 +90,5 @@ module.exports = {
           ],
         }),
         */
-    ],
-}
+    ]
+};

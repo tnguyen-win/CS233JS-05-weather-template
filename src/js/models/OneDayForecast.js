@@ -5,7 +5,7 @@ export default class OneDayForecast {
         this.low = Samples.getLow(samples);
         this.high = Samples.getHigh(samples);
 
-        Object.assign(this, ({ samples }));
+        Object.assign(this, { samples });
     }
 
     getSamples() {

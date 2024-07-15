@@ -18,7 +18,12 @@ export default class Sample {
     }
 
     getIconUrl(size) {
-        return 'https://openweathermap.org/img/wn/' + this.icon + (size === 'large' ? '@4x' : size === 'medium' ? '@2x' : '') + '.png';
+        return (
+            'https://openweathermap.org/img/wn/' +
+            this.icon +
+            (size === 'large' ? '@4x' : size === 'medium' ? '@2x' : '') +
+            '.png'
+        );
     }
 
     getDescription() {
@@ -30,7 +35,7 @@ export default class Sample {
     }
 
     static fromJson(data) {
-        let sample = new Sample(data.dt);
+        const sample = new Sample(data.dt);
 
         sample.temp = data.main.temp;
         sample.wind = data.wind;
@@ -43,7 +48,7 @@ export default class Sample {
     }
 
     static collectionFromJson(json) {
-        let samples = [];
+        const samples = [];
 
         for (const i in json) samples.push(Sample.fromJson(json[i]));
 
