@@ -1,7 +1,9 @@
 export default class Sample {
     constructor(timestamp) {
         this.dt = timestamp;
-        this.date = new Date(timestamp * 1000);
+        this.date = new Date(timestamp * 1000)
+            .toLocaleString()
+            .replace(', ', '\n');
         this.temp;
         this.wind;
         this.pressure;

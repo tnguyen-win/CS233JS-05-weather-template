@@ -8,8 +8,8 @@ import WeatherForecast from '../models/WeatherForecast';
 
 export default function DailyForecasts({ unitType, precision, summaries }) {
     const jsxSummaries = summaries.map((summary, i) => {
-        const dt = new Date(summary.dt);
-        const month = dt.getMonth();
+        const dt = new Date(summary.dt * 1000);
+        const month = dt.getMonth() + 1;
         const date = dt.getDate();
         const day = getWeekday(dt);
         const tempMin = WeatherForecast.getTemperatureWithUnitType(
@@ -22,8 +22,6 @@ export default function DailyForecasts({ unitType, precision, summaries }) {
             unitType,
             precision
         );
-
-        // console.log(summary);
 
         return (
             <Summary

@@ -188,8 +188,6 @@ export default class App {
 
                 // $forecast.classList.remove('hidden');
 
-                // console.log(forecast);
-
                 root.render(
                     <Forecast
                         unitType={unitType}
@@ -212,12 +210,12 @@ export default class App {
         const defaultFormValue = true ? '97330' : '';
 
         return (
-            <div class='flex flex-col gap-4 lg:w-1/2 font-black text-black m-4 lg:my-10'>
+            <div class='flex flex-col gap-4 lg:w-1/2 font-bold text-black m-4 lg:my-10'>
                 <form
-                    class='flex rounded-lg border-2 border-black/50'
+                    class='flex rounded-lg border-[1px] border-black'
                     onsubmit={this.onFormSubmit.bind(this)}>
                     <input
-                        class='w-full rounded-l-lg placeholder-[rgba(0,0,0,0.25)] border-r-2 border-black/50 p-4'
+                        class='w-full rounded-l-lg placeholder-[rgba(0,0,0,0.25)] border-r-[1px] border-black p-4'
                         name='zipCode'
                         placeholder='Enter a zip code'
                         value={defaultFormValue}
