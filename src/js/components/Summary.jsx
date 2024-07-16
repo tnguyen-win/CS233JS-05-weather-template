@@ -13,8 +13,8 @@ export default function Summary({ month, date, day, tempMin, tempMax, index }) {
                 </div>
             </h6>
             <h6 class='font-bold text-3xl'>{day}</h6>
-            <h6 class='break-all'>
-                {tempMin} | {tempMax}
+            <h6 class='flex gap-4 break-all'>
+                <div>{tempMin}</div>|<div>{tempMax}</div>
             </h6>
         </div>
     );
