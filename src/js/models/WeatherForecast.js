@@ -58,8 +58,8 @@ export default class WeatherForecast {
     }
 
     static getTemperatureWithUnitType(value, unitType, precision) {
-        var precisionMultiplier = Math.pow(10, precision || 0);
-        var roundedValue =
+        const precisionMultiplier = Math.pow(10, precision || 0);
+        const roundedValue =
             Math.round(value * precisionMultiplier) / precisionMultiplier;
 
         switch (unitType) {
