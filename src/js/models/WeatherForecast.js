@@ -64,14 +64,13 @@ export default class WeatherForecast {
 
         switch (unitType) {
             case 'kelvin':
-                return roundedValue + ' (K)';
+                return roundedValue + ' K';
             case 'imperial':
             case 'metric':
                 return (
                     roundedValue +
-                    ' (' +
                     String.fromCharCode(176) +
-                    (unitType === 'imperial' ? 'F)' : ' C)')
+                    (unitType === 'imperial' ? ' F' : ' C')
                 );
             default:
                 return '[Unknown Type]';
