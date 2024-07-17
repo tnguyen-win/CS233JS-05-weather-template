@@ -11,6 +11,8 @@ export default class Component {
     }
 
     delegate(type, elem, fn) {
-        return elem.addEventListener(type, e => this.getNodeChildrenEventHandler(e.target, elem, fn));
+        return elem.addEventListener(type, e =>
+            this.getNodeChildrenEventHandler(e.target, elem, fn)
+        );
     }
 }
