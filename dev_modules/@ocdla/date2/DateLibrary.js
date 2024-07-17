@@ -32,7 +32,9 @@ function getOptions(timezoneOffsetInSeconds) {
     const options = {};
     const hoursOffset = toHours(timezoneOffsetInSeconds);
     const utcHours = zeroPad(hoursOffset);
+
     options.timeZone = utcHours;
+
     return options;
 }
 
@@ -43,11 +45,12 @@ export function toLocaleDateParts(
 ) {
     const date = new Date(unixTimestamp * 1000);
     const options = getOptions(timezoneOffsetInSeconds);
+    let dateParts = new Array();
 
-    const dateParts = new Array();
-
-    dateParts[0] = date.toLocaleDateString(locale, options);
-    dateParts[1] = date.toLocaleTimeString(locale, options);
+    dateParts = [
+        date.toLocaleDateString(locale, options),
+        date.toLocaleTimeString(locale, options)
+    ];
 
     return dateParts;
 }
