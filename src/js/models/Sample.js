@@ -38,13 +38,19 @@ export default class Sample {
         return this.temp + '';
     }
 
-    getIconUrl(size) {
-        return (
-            'https://openweathermap.org/img/wn/' +
-            this.icon +
-            (size === 'large' ? '@4x' : size === 'medium' ? '@2x' : '') +
-            '.png'
-        );
+    getIconUrl(type) {
+        let size = '';
+
+        switch (type) {
+            case 'large':
+                size = '@4x';
+                break;
+            case 'medium':
+                size = '@2x';
+                break;
+        }
+
+        return 'https://openweathermap.org/img/wn/' + this.icon + size + '.png';
     }
 
     getDescription() {

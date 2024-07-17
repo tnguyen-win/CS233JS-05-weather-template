@@ -61,20 +61,22 @@ export default class WeatherForecast {
         const precisionMultiplier = Math.pow(10, precision || 0);
         const roundedValue =
             Math.round(value * precisionMultiplier) / precisionMultiplier;
+        let output = '[Unknown Type]';
 
         switch (unitType) {
             case 'kelvin':
-                return roundedValue + ' K';
+                output = roundedValue + ' K';
+                break;
             case 'imperial':
             case 'metric':
-                return (
+                output =
                     roundedValue +
                     String.fromCharCode(176) +
-                    (unitType === 'imperial' ? ' F' : ' C')
-                );
-            default:
-                return '[Unknown Type]';
+                    (unitType === 'imperial' ? ' F' : ' C');
+                break;
         }
+
+        return output;
     }
 
     static getWindSpeedWithUnitType(value, unitType) {
