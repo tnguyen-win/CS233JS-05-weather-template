@@ -4,6 +4,7 @@ import Sample from './Sample';
 export default class WeatherForecast {
     constructor(data) {
         this.dailyForecasts = this.parse(data.list);
+        this.samples;
 
         Object.assign(this, { data });
     }
@@ -19,8 +20,10 @@ export default class WeatherForecast {
 
             return key;
         };
-        const samples = Sample.collectionFromJson(data);
-        const sequence = Object.groupBy(samples, groupByDayFn);
+
+        this.samples = Sample.collectionFromJson(data);
+
+        const sequence = Object.groupBy(this.samples, groupByDayFn);
         const groups = Object.values(sequence);
 
         for (const group of groups) {
@@ -32,8 +35,18 @@ export default class WeatherForecast {
         return days;
     }
 
-    getToday() {
-        return this.dailyForecasts[0];
+    // getToday() {
+    getNextSamples(numSamples, startTime = new Date()) {
+        // return this.dailyForecasts[0];
+        // (0, 5)
+        // array.findIndex()
+        // 1000000
+
+        const startIndex = this.samples.findIndex(
+            ele => startTime.getTime() / 1000 <= ele.dt
+        );
+
+        return this.samples.slice(startIndex, numSamples);
     }
 
     getDay(dayIndex) {

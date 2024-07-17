@@ -5,6 +5,7 @@ import Sample from './models/Sample';
 import Forecast from './components/Forecast';
 /* eslint-enable */
 import WeatherForecast from './models/WeatherForecast';
+import { toString } from '@ocdla/date2';
 
 export default class App {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
@@ -148,7 +149,7 @@ export default class App {
         // const unitType = 'metric';
         const lang = 'en';
         const mode = 'json';
-        const precision = 1;
+        const precision = 0;
 
         this.getCoordinates(zipCode, locale)
             .then(loc => {
@@ -180,20 +181,24 @@ export default class App {
             })
             .then(struct => {
                 const [current, forecast] = struct;
+                // console.log(current);
                 const city = current.name;
                 const currentWeatherSample = Sample.fromJson(current);
                 const icon = currentWeatherSample.getIconUrl('large');
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
                 const wF = new WeatherForecast(forecast);
+                // const time = currentWeatherSample.getDateToString();
                 const formattedTemp =
                     WeatherForecast.getTemperatureWithUnitType(
                         temp,
                         unitType,
                         precision
                     );
-                const todaysForecast = wF.getToday();
-                const samples = todaysForecast.getSamples();
+                // const todaysForecast = wF.getToday();
+                // const todaysForecast = wF.getNextSamples(5);
+                const samples = wF.getNextSamples(5);
+                // const samples = todaysForecast.getSamples();
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
 
@@ -211,6 +216,7 @@ export default class App {
                         }}
                         future={samples}
                         summaries={forecast.list}
+                        offset={forecast.city.timezone}
                     />
                 );
             })

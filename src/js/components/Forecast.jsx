@@ -11,10 +11,12 @@ export default function Forecast({
     precision,
     current,
     future,
-    summaries
+    summaries,
+    offset
 }) {
     return (
         <div class='flex flex-col gap-4'>
+            {/* Add Sample Time Here For Current Weather */}
             <CurrentWeather
                 city={current.city}
                 icon={current.icon}
@@ -24,7 +26,8 @@ export default function Forecast({
             <SampleCollection
                 unitType={unitType}
                 precision={precision}
-                future={future}
+                samples={future}
+                offset={offset}
             />
             <DailyForecasts
                 unitType={unitType}

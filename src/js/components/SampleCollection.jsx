@@ -5,19 +5,26 @@ import Sample from './Sample';
 /* eslint-enable */
 import WeatherForecast from '../models/WeatherForecast';
 
-export default function SampleCollection({ unitType, precision, future }) {
-    const jsxSamples = future.map(sample => {
+export default function SampleCollection({
+    unitType,
+    precision,
+    samples,
+    offset
+}) {
+    const jsxSamples = samples.map(sample => {
         const formattedTemp = WeatherForecast.getTemperatureWithUnitType(
             sample.getTemp(),
             unitType,
             precision
         );
+        let locale = 'en-US';
+        let time = sample.toLocaleTime(locale, offset);
 
         return (
             <Sample
                 icon={sample.getIconUrl()}
                 temp={formattedTemp}
-                time={sample.getTime()}
+                time={time}
             />
         );
     });

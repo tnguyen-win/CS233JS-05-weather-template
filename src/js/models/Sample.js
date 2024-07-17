@@ -1,14 +1,33 @@
+// import { toString } from '@ocdla/date2';
+import { toLocaleDateParts } from '@ocdla/date2';
+
 export default class Sample {
     constructor(timestamp) {
         this.dt = timestamp;
-        this.date = new Date(timestamp * 1000)
-            .toLocaleString()
-            .replace(', ', '\n');
+        this.date = new Date(timestamp * 1000);
+        this.timezone;
         this.temp;
         this.wind;
         this.pressure;
         this.description;
         this.icon;
+
+        // console.log(this.date);
+    }
+
+    // toString(1721163600, -25200);
+
+    toLocaleString(locale, offset) {
+        // return toString(this.dt, offset, locale);
+        return toLocaleDateParts(this.dt, offset, locale);
+    }
+
+    toLocaleDate(locale, offset) {
+        return toLocaleDateParts(this.dt, offset, locale)[0];
+    }
+
+    toLocaleTime(locale, offset) {
+        return toLocaleDateParts(this.dt, offset, locale)[1];
     }
 
     getTime() {
@@ -39,6 +58,7 @@ export default class Sample {
     static fromJson(data) {
         const sample = new Sample(data.dt);
 
+        sample.timezone = data.timezone;
         sample.temp = data.main.temp;
         sample.wind = data.wind;
         sample.pressure = data.main.pressure;
