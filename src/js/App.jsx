@@ -5,7 +5,6 @@ import Sample from './models/Sample';
 import Forecast from './components/Forecast';
 /* eslint-enable */
 import WeatherForecast from './models/WeatherForecast';
-import { toString } from '@ocdla/date2';
 
 export default class App {
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
@@ -181,9 +180,13 @@ export default class App {
             })
             .then(struct => {
                 const [current, forecast] = struct;
-                // console.log(current);
                 const city = current.name;
                 const currentWeatherSample = Sample.fromJson(current);
+                const offset = forecast.city.timezone;
+                const date = currentWeatherSample.toLocaleMonthAndDay(
+                    locale,
+                    offset
+                );
                 const icon = currentWeatherSample.getIconUrl('large');
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
@@ -210,13 +213,14 @@ export default class App {
                         precision={precision}
                         current={{
                             city,
+                            date: date,
                             icon,
                             temp: formattedTemp,
                             description
                         }}
                         future={samples}
                         summaries={forecast.list}
-                        offset={forecast.city.timezone}
+                        offset={offset}
                     />
                 );
             })

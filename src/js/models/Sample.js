@@ -1,4 +1,3 @@
-// import { toString } from '@ocdla/date2';
 import { toLocaleDateParts } from '@ocdla/date2';
 
 export default class Sample {
@@ -11,14 +10,9 @@ export default class Sample {
         this.pressure;
         this.description;
         this.icon;
-
-        // console.log(this.date);
     }
 
-    // toString(1721163600, -25200);
-
     toLocaleString(locale, offset) {
-        // return toString(this.dt, offset, locale);
         return toLocaleDateParts(this.dt, offset, locale);
     }
 
@@ -28,6 +22,10 @@ export default class Sample {
 
     toLocaleTime(locale, offset) {
         return toLocaleDateParts(this.dt, offset, locale)[1];
+    }
+
+    toLocaleMonthAndDay(locale, offset) {
+        return toLocaleDateParts(this.dt, offset, locale)[2];
     }
 
     getTime() {

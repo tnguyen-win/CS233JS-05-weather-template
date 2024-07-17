@@ -16,9 +16,9 @@ export default function Forecast({
 }) {
     return (
         <div class='flex flex-col gap-4'>
-            {/* Add Sample Time Here For Current Weather */}
             <CurrentWeather
                 city={current.city}
+                date={current.date}
                 icon={current.icon}
                 temp={current.temp}
                 description={current.description}

@@ -29,7 +29,7 @@ function zeroPad(num) {
 }
 
 function getOptions(timezoneOffsetInSeconds) {
-    const options = {};
+    const options = { hour: 'numeric' };
     const hoursOffset = toHours(timezoneOffsetInSeconds);
     const utcHours = zeroPad(hoursOffset);
 
@@ -45,11 +45,14 @@ export function toLocaleDateParts(
 ) {
     const date = new Date(unixTimestamp * 1000);
     const options = getOptions(timezoneOffsetInSeconds);
-    let dateParts = new Array();
+    let dateParts = [];
 
     dateParts = [
         date.toLocaleDateString(locale, options),
-        date.toLocaleTimeString(locale, options)
+        date.toLocaleTimeString(locale, options),
+        date.toLocaleString('default', { month: 'long' }) +
+            ' ' +
+            date.toLocaleString('default', { day: '2-digit' })
     ];
 
     return dateParts;
