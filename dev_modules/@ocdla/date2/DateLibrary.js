@@ -21,17 +21,17 @@ function toHours(num) {
 }
 
 function zeroPad(num) {
-    let sign = Math.sign(num);
-    let nextStep = Math.abs(num) < 10 ? '0' + Math.abs(num) : Math.abs(num);
-    let str = nextStep.toString();
+    const sign = Math.sign(num);
+    const nextStep = Math.abs(num) < 10 ? '0' + Math.abs(num) : Math.abs(num);
+    const str = nextStep.toString();
 
     return sign === -1 ? '-' + str : str;
 }
 
 function getOptions(timezoneOffsetInSeconds) {
-    let options = {};
-    let hoursOffset = toHours(timezoneOffsetInSeconds);
-    let utcHours = zeroPad(hoursOffset);
+    const options = {};
+    const hoursOffset = toHours(timezoneOffsetInSeconds);
+    const utcHours = zeroPad(hoursOffset);
     options.timeZone = utcHours;
     return options;
 }
@@ -41,10 +41,10 @@ export function toLocaleDateParts(
     timezoneOffsetInSeconds,
     locale
 ) {
-    let date = new Date(unixTimestamp * 1000);
-    let options = getOptions(timezoneOffsetInSeconds);
+    const date = new Date(unixTimestamp * 1000);
+    const options = getOptions(timezoneOffsetInSeconds);
 
-    let dateParts = new Array();
+    const dateParts = new Array();
 
     dateParts[0] = date.toLocaleDateString(locale, options);
     dateParts[1] = date.toLocaleTimeString(locale, options);

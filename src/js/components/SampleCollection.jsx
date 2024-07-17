@@ -17,8 +17,8 @@ export default function SampleCollection({
             unitType,
             precision
         );
-        let locale = 'en-US';
-        let time = sample.toLocaleTime(locale, offset);
+        const locale = 'en-US';
+        const time = sample.toLocaleTime(locale, offset);
 
         return (
             <Sample
