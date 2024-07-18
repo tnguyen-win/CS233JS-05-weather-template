@@ -10,6 +10,7 @@ export default function Forecast({
     unitType,
     precision,
     current,
+    state,
     future,
     summaries,
     offset
@@ -18,6 +19,7 @@ export default function Forecast({
         <div class='flex flex-col gap-4'>
             <CurrentWeather
                 city={current.city}
+                state={state}
                 date={current.date}
                 icon={current.icon}
                 temp={current.temp}

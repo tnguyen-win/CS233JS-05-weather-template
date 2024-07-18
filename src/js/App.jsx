@@ -7,10 +7,63 @@ import Forecast from './components/Forecast';
 import WeatherForecast from './models/WeatherForecast';
 
 export default class App {
+    static US_STATES = [
+        ['Arizona', 'AZ'],
+        ['Alabama', 'AL'],
+        ['Alaska', 'AK'],
+        ['Arkansas', 'AR'],
+        ['California', 'CA'],
+        ['Colorado', 'CO'],
+        ['Connecticut', 'CT'],
+        ['Delaware', 'DE'],
+        ['Florida', 'FL'],
+        ['Georgia', 'GA'],
+        ['Hawaii', 'HI'],
+        ['Idaho', 'ID'],
+        ['Illinois', 'IL'],
+        ['Indiana', 'IN'],
+        ['Iowa', 'IA'],
+        ['Kansas', 'KS'],
+        ['Kentucky', 'KY'],
+        ['Louisiana', 'LA'],
+        ['Maine', 'ME'],
+        ['Maryland', 'MD'],
+        ['Massachusetts', 'MA'],
+        ['Michigan', 'MI'],
+        ['Minnesota', 'MN'],
+        ['Mississippi', 'MS'],
+        ['Missouri', 'MO'],
+        ['Montana', 'MT'],
+        ['Nebraska', 'NE'],
+        ['Nevada', 'NV'],
+        ['New Hampshire', 'NH'],
+        ['New Jersey', 'NJ'],
+        ['New Mexico', 'NM'],
+        ['New York', 'NY'],
+        ['North Carolina', 'NC'],
+        ['North Dakota', 'ND'],
+        ['Ohio', 'OH'],
+        ['Oklahoma', 'OK'],
+        ['Oregon', 'OR'],
+        ['Pennsylvania', 'PA'],
+        ['Rhode Island', 'RI'],
+        ['South Carolina', 'SC'],
+        ['South Dakota', 'SD'],
+        ['Tennessee', 'TN'],
+        ['Texas', 'TX'],
+        ['Utah', 'UT'],
+        ['Vermont', 'VT'],
+        ['Virginia', 'VA'],
+        ['Washington', 'WA'],
+        ['West Virginia', 'WV'],
+        ['Wisconsin', 'WI'],
+        ['Wyoming', 'WY']
+    ];
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
     static GEOCODE_ENDPOINT = 'geo/' + App.GEOCODE_VERSION + '/zip';
+    static STATE_ENDPOINT = 'geo/' + App.GEOCODE_VERSION + '/direct';
     static CURRENT_WEATHER_ENDPOINT =
         'data/' + App.FORECAST_VERSION + '/weather';
     static FORECAST_ENDPOINT = 'data/' + App.FORECAST_VERSION + '/forecast';
@@ -43,6 +96,28 @@ export default class App {
         // const resp = await fetch(geocodeUrl);
 
         return fetch(geocodeUrl).then(resp => resp.json());
+        // return await resp.json();
+    }
+
+    getStateUrl(city) {
+        return (
+            'https://' +
+            App.OPEN_WEATHER_MAP_DOMAIN +
+            '/' +
+            App.STATE_ENDPOINT +
+            '?q=' +
+            city +
+            '&appid=' +
+            this.apiKey
+        );
+    }
+
+    getState(city) {
+        // async getState(city) {
+        const stateUrl = this.getStateUrl(city);
+        // const resp = await fetch(geocodeUrl);
+
+        return fetch(stateUrl).then(resp => resp.json());
         // return await resp.json();
     }
 
@@ -157,8 +232,6 @@ export default class App {
                 //         navigator.geolocation.getCurrentPosition(resolve, reject)
                 //     );
 
-                // console.log(pos);
-
                 const cData = this.getCurrentWeather(
                     loc.lat,
                     loc.lon,
@@ -180,7 +253,17 @@ export default class App {
             })
             .then(struct => {
                 const [current, forecast] = struct;
+                const state = this.getState(forecast.city.name);
+
+                return Promise.all([current, state, forecast]);
+            })
+            .then(struct => {
+                const [current, state, forecast] = struct;
                 const city = current.name;
+                const formattedState = state[0].state
+                    ? ', ' +
+                      App.US_STATES.find(pair => pair[0] === state[0].state)[1]
+                    : '';
                 const currentWeatherSample = Sample.fromJson(current);
                 const offset = forecast.city.timezone;
                 const date = currentWeatherSample.toLocaleMonthAndDay(
@@ -213,11 +296,12 @@ export default class App {
                         precision={precision}
                         current={{
                             city,
-                            date: date,
+                            date,
                             icon,
                             temp: formattedTemp,
                             description
                         }}
+                        state={formattedState}
                         future={samples}
                         summaries={forecast.list}
                         offset={offset}
