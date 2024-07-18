@@ -1,17 +1,20 @@
-// Location of this URI for this file.
 const workerUri = './sw.js';
-
-// The worker can control all pages within this scope, i.e., in the current directory and all its subdirectories.
 const workerScope = './';
+const cacheName = 'weather_cache';
 
-const cacheName = 'ExampleCache_v1';
-
-// Register the service worker with the browser and listen for evenets.
 registerServiceWorker();
 
 self.addEventListener('install', event => {
     event.waitUntil(
-        addResourcesToCache(['index.html', 'styles.css', 'app.js'])
+        addResourcesToCache([
+            // '../index.html',
+            // '../css/input.css'
+            // './index.js',
+            // './App.jsx',
+            // 'App.jsx'
+            // 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
+            // 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'
+        ])
     );
 });
 
@@ -24,37 +27,39 @@ async function registerServiceWorker() {
                     scope: workerScope
                 }
             );
-            if (registration.installing) {
-                console.log('Service worker installing');
-            } else if (registration.waiting) {
-                console.log('Service worker installed');
-            } else if (registration.active) {
-                console.log('Service worker active');
-            }
-        } catch (error) {
-            console.error(`Registration failed with ${error}`);
+            // switch (true) {
+            //     case registration.installing:
+            //         console.log('Service worker installing.');
+            //         break;
+            //     case registration.waiting:
+            //         console.log('Service worker installed.');
+            //         break;
+            //     case registration.active:
+            //         console.log('Service worker active.');
+            //         break;
+            //     default:
+            //         break;
+            // }
+            if (registration.installing)
+                console.log('Service worker installing.');
+            else if (registration.waiting)
+                console.log('Service worker installed.');
+            else if (registration.active) console.log('Service worker active.');
+        } catch (event) {
+            console.error('Registration failed with ' + event + '.');
         }
     }
 }
 
-// Sample code from Google.
-// Intercept requests and respond with a cached copy; otherwise perform the fetch and place the response in the cache.
 self.addEventListener('fetch', async event => {
-    // Is this a request for an image?
-
     event.respondWith(
         caches.open(cacheName).then(cache => {
-            // Respond with the image from the cache or from the network
             return cache.match(event.request).then(cachedResponse => {
                 return (
                     cachedResponse ||
                     fetch(event.request.url).then(fetchedResponse => {
-                        // Add the network response to the cache for future visits.
-                        // Note: we need to make a copy of the response to save it in
-                        // the cache and use the original as the request response.
                         cache.put(event.request, fetchedResponse.clone());
 
-                        // Return the network response
                         return fetchedResponse;
                     })
                 );
@@ -64,6 +69,7 @@ self.addEventListener('fetch', async event => {
 });
 
 async function addResourcesToCache(resources) {
-    const cache = await caches.open('v1');
+    const cache = await caches.open(cacheName);
+
     await cache.addAll(resources);
 }

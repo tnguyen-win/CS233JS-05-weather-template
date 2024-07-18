@@ -4,6 +4,7 @@ import { vNode, View } from '@ocdla/view';
 import Sample from './models/Sample';
 import Forecast from './components/Forecast';
 /* eslint-enable */
+import './sw';
 import WeatherForecast from './models/WeatherForecast';
 
 export default class App {
