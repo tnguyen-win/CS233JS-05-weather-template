@@ -4,20 +4,19 @@ import { vNode } from '@ocdla/view';
 import Summary from './Summary';
 /* eslint-enable */
 import DateLibrary from '@ocdla/date2';
-import WeatherForecast from '../models/WeatherForecast';
 
-export default function DailyForecasts({ unitType, precision, summaries }) {
+export default function DailyForecasts({ unitType, precision, summaries, wf }) {
     const jsxSummaries = summaries.map((summary, i) => {
         const dt = new Date(summary.dt * 1000);
         const month = dt.getMonth() + 1;
         const date = dt.getDate();
         const day = DateLibrary.getWeekday(dt);
-        const tempMin = WeatherForecast.getTemperatureWithUnitType(
+        const tempMin = wf.getTemperatureWithUnitType(
             summary.main.temp_min,
             unitType,
             precision
         );
-        const tempMax = WeatherForecast.getTemperatureWithUnitType(
+        const tempMax = wf.getTemperatureWithUnitType(
             summary.main.temp_max,
             unitType,
             precision

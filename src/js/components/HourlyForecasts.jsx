@@ -3,11 +3,10 @@
 import { vNode } from '@ocdla/view';
 import Sample from './Sample';
 /* eslint-enable */
-import WeatherForecast from '../models/WeatherForecast';
 
-export default function SampleCollection({ unitType, precision, samples, wf }) {
+export default function HourlyForecasts({ unitType, precision, samples, wf }) {
     const jsxSamples = samples.map(sample => {
-        const formattedTemp = WeatherForecast.getTemperatureWithUnitType(
+        const formattedTemp = wf.getTemperatureWithUnitType(
             sample.getTemp(),
             unitType,
             precision

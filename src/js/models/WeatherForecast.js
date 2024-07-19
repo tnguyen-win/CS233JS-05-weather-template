@@ -1,5 +1,4 @@
 import DateLibrary from '@ocdla/date2';
-
 import OneDayForecast from './OneDayForecast';
 import Sample from './Sample';
 
@@ -74,13 +73,7 @@ export default class WeatherForecast {
         return days;
     }
 
-    // getToday() {
     getNextSamples(numSamples, startTime = new Date()) {
-        // return this.dailyForecasts[0];
-        // (0, 5)
-        // array.findIndex()
-        // 1000000
-
         const startIndex = this.samples.findIndex(
             ele => startTime.getTime() / 1000 <= ele.dt
         );
@@ -118,7 +111,7 @@ export default class WeatherForecast {
         return output;
     }
 
-    static getWindSpeedWithUnitType(value, unitType) {
+    getWindSpeedWithUnitType(value, unitType) {
         return unitType === 'imperial'
             ? value + ' mph'
             : unitType === 'metric'

@@ -40,6 +40,7 @@ async function registerServiceWorker() {
             //     default:
             //         break;
             // }
+            /* eslint-disable */
             if (registration.installing)
                 console.log('Service worker installing.');
             else if (registration.waiting)
@@ -48,22 +49,23 @@ async function registerServiceWorker() {
         } catch (event) {
             console.error('Registration failed with ' + event + '.');
         }
+        /* eslint-enable */
     }
 }
 
 self.addEventListener('fetch', async event => {
     event.respondWith(
-        caches.open(cacheName).then(cache => {
-            return cache.match(event.request).then(cachedResponse => {
-                return (
-                    cachedResponse ||
-                    fetch(event.request.url).then(fetchedResponse => {
-                        cache.put(event.request, fetchedResponse.clone());
+        caches.open(cacheName).then(async cache => {
+            const cachedResponse = await cache.match(event.request);
 
-                        return fetchedResponse;
-                    })
-                );
-            });
+            return (
+                cachedResponse ||
+                fetch(event.request.url).then(fetchedResponse => {
+                    cache.put(event.request, fetchedResponse.clone());
+
+                    return fetchedResponse;
+                })
+            );
         })
     );
 });

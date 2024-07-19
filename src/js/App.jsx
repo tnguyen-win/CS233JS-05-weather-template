@@ -2,64 +2,14 @@
 /* eslint-disable */
 import { vNode, View } from '@ocdla/view';
 import Sample from './models/Sample';
-import Forecast from './components/Forecast';
+import CurrentWeather from './components/CurrentWeather';
+import HourlyForecasts from './components/HourlyForecasts';
+import DailyForecasts from './components/DailyForecasts';
 /* eslint-enable */
-// import './sw';
+import US_States from './data/us_states.json';
 import WeatherForecast from './models/WeatherForecast';
 
 export default class App {
-    static US_STATES = [
-        ['Arizona', 'AZ'],
-        ['Alabama', 'AL'],
-        ['Alaska', 'AK'],
-        ['Arkansas', 'AR'],
-        ['California', 'CA'],
-        ['Colorado', 'CO'],
-        ['Connecticut', 'CT'],
-        ['Delaware', 'DE'],
-        ['Florida', 'FL'],
-        ['Georgia', 'GA'],
-        ['Hawaii', 'HI'],
-        ['Idaho', 'ID'],
-        ['Illinois', 'IL'],
-        ['Indiana', 'IN'],
-        ['Iowa', 'IA'],
-        ['Kansas', 'KS'],
-        ['Kentucky', 'KY'],
-        ['Louisiana', 'LA'],
-        ['Maine', 'ME'],
-        ['Maryland', 'MD'],
-        ['Massachusetts', 'MA'],
-        ['Michigan', 'MI'],
-        ['Minnesota', 'MN'],
-        ['Mississippi', 'MS'],
-        ['Missouri', 'MO'],
-        ['Montana', 'MT'],
-        ['Nebraska', 'NE'],
-        ['Nevada', 'NV'],
-        ['New Hampshire', 'NH'],
-        ['New Jersey', 'NJ'],
-        ['New Mexico', 'NM'],
-        ['New York', 'NY'],
-        ['North Carolina', 'NC'],
-        ['North Dakota', 'ND'],
-        ['Ohio', 'OH'],
-        ['Oklahoma', 'OK'],
-        ['Oregon', 'OR'],
-        ['Pennsylvania', 'PA'],
-        ['Rhode Island', 'RI'],
-        ['South Carolina', 'SC'],
-        ['South Dakota', 'SD'],
-        ['Tennessee', 'TN'],
-        ['Texas', 'TX'],
-        ['Utah', 'UT'],
-        ['Vermont', 'VT'],
-        ['Virginia', 'VA'],
-        ['Washington', 'WA'],
-        ['West Virginia', 'WV'],
-        ['Wisconsin', 'WI'],
-        ['Wyoming', 'WY']
-    ];
     static OPEN_WEATHER_MAP_DOMAIN = 'api.openweathermap.org';
     static GEOCODE_VERSION = '1.0';
     static FORECAST_VERSION = '2.5';
@@ -92,10 +42,7 @@ export default class App {
     }
 
     getCoordinates(zipCode, country) {
-        // async getCoordinates(zipCode, country) {
         const geocodeUrl = this.getGeocodeUrl(zipCode, country);
-        // const resp = await fetch(geocodeUrl);
-
         const json = fetch(geocodeUrl).then(resp => resp.json());
 
         // Inspect JSON to determine if the status code isn't okay.
@@ -118,13 +65,11 @@ export default class App {
         );
     }
 
-    getState(city) {
-        // async getState(city) {
+    async getState(city) {
         const stateUrl = this.getStateUrl(city);
-        // const resp = await fetch(geocodeUrl);
+        const resp = await fetch(stateUrl);
 
-        return fetch(stateUrl).then(resp => resp.json());
-        // return await resp.json();
+        return await resp.json();
     }
 
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
@@ -144,6 +89,18 @@ export default class App {
             '&appid=' +
             this.apiKey
         );
+    }
+
+    async getCurrentWeather(lat, lon, unitType, lang) {
+        const currentWeatherUrl = this.getCurrentWeatherUrl(
+            lat,
+            lon,
+            unitType,
+            lang
+        );
+        const resp = await fetch(currentWeatherUrl);
+
+        return await resp.json();
     }
 
     // addParam()
@@ -168,33 +125,16 @@ export default class App {
         );
     }
 
-    getCurrentWeather(lat, lon, unitType, lang) {
-        // async getCurrentWeather(lat, lon) {
-        const currentWeatherUrl = this.getCurrentWeatherUrl(
-            lat,
-            lon,
-            unitType,
-            lang
-        );
-        // const resp = await fetch(currentWeatherUrl);
-
-        return fetch(currentWeatherUrl).then(resp => resp.json());
-        // return await resp.json();
-    }
-
-    getForecast(lat, lon, unitType, mode) {
-        // async getForecast(lat, lon) {
+    async getForecast(lat, lon, unitType, mode) {
         const forecastUrl = this.getForecastUrl(lat, lon, unitType, mode);
-        // const resp = await fetch(forecastUrl);
+        const resp = await fetch(forecastUrl);
 
-        return fetch(forecastUrl).then(resp => resp.json());
-        // return await resp.json();
+        return await resp.json();
     }
 
     clearCurrentDay(e) {
         e[0].value = '';
         // e.reset();
-        // this.$forecastDetails.classList.add('d-none');
     }
 
     onFormSubmit(e) {
@@ -268,88 +208,56 @@ export default class App {
                 const city = current.name;
                 const formattedState = state[0].state
                     ? ', ' +
-                      App.US_STATES.find(pair => pair[0] === state[0].state)[1]
+                      US_States.find(pair => pair[0] === state[0].state)[1]
                     : '';
+                const wf = new WeatherForecast(forecast);
                 const currentWeatherSample = Sample.fromJson(current);
-                const offset = forecast.city.timezone;
-                // const date = currentWeatherSample.toLocaleMonthAndDay(
-                //     locale,
-                //     offset
-                // );
-                const icon = currentWeatherSample.getIconUrl('large');
+                const formattedIconUrl =
+                    currentWeatherSample.getIconUrl('large');
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
-                const wf = new WeatherForecast(forecast);
-                const date = wf.toLocaleMonthAndDay(currentWeatherSample);
-                // const time = currentWeatherSample.getDateToString();
-                const formattedTemp =
-                    WeatherForecast.getTemperatureWithUnitType(
-                        temp,
-                        unitType,
-                        precision
-                    );
-                // const todaysForecast = wf.getToday();
-                // const todaysForecast = wf.getNextSamples(5);
+                const formattedDate =
+                    wf.toLocaleMonthAndDay(currentWeatherSample);
+                const formattedTemp = wf.getTemperatureWithUnitType(
+                    temp,
+                    unitType,
+                    precision
+                );
                 const samples = wf.getNextSamples(5);
-                // const samples = todaysForecast.getSamples();
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
 
-                // $forecast.classList.remove('hidden');
-
                 root.render(
-                    <>
-                        {/* <Forecast
+                    <div class='flex flex-col gap-4'>
+                        <CurrentWeather
+                            city={city}
+                            state={formattedState}
+                            date={formattedDate}
+                            icon={formattedIconUrl}
+                            temp={formattedTemp}
+                            description={description}
+                        />
+                        <HourlyForecasts
                             unitType={unitType}
                             precision={precision}
-                            current={{
-                                city,
-                                date,
-                                icon,
-                                temp: formattedTemp,
-                                description
-                            }}
-                            state={formattedState}
-                            future={samples}
+                            samples={samples}
+                            wf={wf}
+                        />
+                        <DailyForecasts
+                            unitType={unitType}
+                            precision={precision}
                             summaries={forecast.list}
-                            offset={offset}
-                        /> */}
-                        <div class='flex flex-col gap-4'>
-                            <CurrentWeather
-                                city={current.city}
-                                state={formattedState}
-                                date={date}
-                                icon={current.icon}
-                                temp={current.temp}
-                                description={current.description}
-                            />
-                            {/* HourlyForecasts */}
-                            <SampleCollection
-                                unitType={unitType}
-                                precision={precision}
-                                samples={samples}
-                                wf={wf}
-                            />
-                            <DailyForecasts
-                                unitType={unitType}
-                                precision={precision}
-                                summaries={forecast.list}
-                            />
-                        </div>
-                    </>
+                            wf={wf}
+                        />
+                    </div>
                 );
             })
             .then(() => this.clearCurrentDay(e.target))
-            .catch(e => {
-                console.log(e);
-            });
+            .catch(e => console.log(e));
     }
 
     render() {
         const defaultFormValue = true ? '97330' : '';
-
-        onclick;
-        onClick;
 
         return (
             <div class='flex flex-col gap-4 lg:w-1/2 text-black m-4 lg:my-10'>
