@@ -3,7 +3,7 @@
 import { vNode } from '@ocdla/view';
 import Summary from './Summary';
 /* eslint-enable */
-import { getWeekday } from '@ocdla/date2';
+import DateLibrary from '@ocdla/date2';
 import WeatherForecast from '../models/WeatherForecast';
 
 export default function DailyForecasts({ unitType, precision, summaries }) {
@@ -11,7 +11,7 @@ export default function DailyForecasts({ unitType, precision, summaries }) {
         const dt = new Date(summary.dt * 1000);
         const month = dt.getMonth() + 1;
         const date = dt.getDate();
-        const day = getWeekday(dt);
+        const day = DateLibrary.getWeekday(dt);
         const tempMin = WeatherForecast.getTemperatureWithUnitType(
             summary.main.temp_min,
             unitType,

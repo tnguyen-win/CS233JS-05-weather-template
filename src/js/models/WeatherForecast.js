@@ -1,12 +1,51 @@
+import DateLibrary from '@ocdla/date2';
+
 import OneDayForecast from './OneDayForecast';
 import Sample from './Sample';
 
 export default class WeatherForecast {
     constructor(data) {
+        this.city = data.city;
+        this.locale = data.locale || 'en-US';
+        this.precision = data.precision || 0;
+        this.unitType = data.unitType || 'imperial';
+        this.offset = data.city.timezone;
         this.dailyForecasts = this.parse(data.list);
         this.samples;
 
         Object.assign(this, { data });
+    }
+
+    toLocaleString(sample) {
+        return DateLibrary.toLocaleDateParts(
+            sample.dt,
+            this.offset,
+            this.locale
+        );
+    }
+
+    toLocaleDate(sample) {
+        return DateLibrary.toLocaleDateParts(
+            sample.dt,
+            this.offset,
+            this.locale
+        )[0];
+    }
+
+    toLocaleTime(sample) {
+        return DateLibrary.toLocaleDateParts(
+            sample.dt,
+            this.offset,
+            this.locale
+        )[1];
+    }
+
+    toLocaleMonthAndDay(sample) {
+        return DateLibrary.toLocaleDateParts(
+            sample.dt,
+            this.offset,
+            this.locale
+        )[2];
     }
 
     parse(data) {
@@ -57,7 +96,7 @@ export default class WeatherForecast {
         return this.dailyForecasts;
     }
 
-    static getTemperatureWithUnitType(value, unitType, precision) {
+    getTemperatureWithUnitType(value, unitType, precision) {
         const precisionMultiplier = Math.pow(10, precision || 0);
         const roundedValue =
             Math.round(value * precisionMultiplier) / precisionMultiplier;

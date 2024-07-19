@@ -4,7 +4,7 @@ import { vNode, View } from '@ocdla/view';
 import Sample from './models/Sample';
 import Forecast from './components/Forecast';
 /* eslint-enable */
-import './sw';
+// import './sw';
 import WeatherForecast from './models/WeatherForecast';
 
 export default class App {
@@ -96,7 +96,12 @@ export default class App {
         const geocodeUrl = this.getGeocodeUrl(zipCode, country);
         // const resp = await fetch(geocodeUrl);
 
-        return fetch(geocodeUrl).then(resp => resp.json());
+        const json = fetch(geocodeUrl).then(resp => resp.json());
+
+        // Inspect JSON to determine if the status code isn't okay.
+        // Use resp.ok !== true
+
+        return json;
         // return await resp.json();
     }
 
@@ -267,14 +272,15 @@ export default class App {
                     : '';
                 const currentWeatherSample = Sample.fromJson(current);
                 const offset = forecast.city.timezone;
-                const date = currentWeatherSample.toLocaleMonthAndDay(
-                    locale,
-                    offset
-                );
+                // const date = currentWeatherSample.toLocaleMonthAndDay(
+                //     locale,
+                //     offset
+                // );
                 const icon = currentWeatherSample.getIconUrl('large');
                 const temp = currentWeatherSample.getTemp();
                 const description = currentWeatherSample.getDescription();
-                const wF = new WeatherForecast(forecast);
+                const wf = new WeatherForecast(forecast);
+                const date = wf.toLocaleMonthAndDay(currentWeatherSample);
                 // const time = currentWeatherSample.getDateToString();
                 const formattedTemp =
                     WeatherForecast.getTemperatureWithUnitType(
@@ -282,9 +288,9 @@ export default class App {
                         unitType,
                         precision
                     );
-                // const todaysForecast = wF.getToday();
-                // const todaysForecast = wF.getNextSamples(5);
-                const samples = wF.getNextSamples(5);
+                // const todaysForecast = wf.getToday();
+                // const todaysForecast = wf.getNextSamples(5);
+                const samples = wf.getNextSamples(5);
                 // const samples = todaysForecast.getSamples();
                 const $forecast = document.querySelector('#forecast');
                 const root = View.createRoot($forecast);
@@ -292,28 +298,58 @@ export default class App {
                 // $forecast.classList.remove('hidden');
 
                 root.render(
-                    <Forecast
-                        unitType={unitType}
-                        precision={precision}
-                        current={{
-                            city,
-                            date,
-                            icon,
-                            temp: formattedTemp,
-                            description
-                        }}
-                        state={formattedState}
-                        future={samples}
-                        summaries={forecast.list}
-                        offset={offset}
-                    />
+                    <>
+                        {/* <Forecast
+                            unitType={unitType}
+                            precision={precision}
+                            current={{
+                                city,
+                                date,
+                                icon,
+                                temp: formattedTemp,
+                                description
+                            }}
+                            state={formattedState}
+                            future={samples}
+                            summaries={forecast.list}
+                            offset={offset}
+                        /> */}
+                        <div class='flex flex-col gap-4'>
+                            <CurrentWeather
+                                city={current.city}
+                                state={formattedState}
+                                date={date}
+                                icon={current.icon}
+                                temp={current.temp}
+                                description={current.description}
+                            />
+                            {/* HourlyForecasts */}
+                            <SampleCollection
+                                unitType={unitType}
+                                precision={precision}
+                                samples={samples}
+                                wf={wf}
+                            />
+                            <DailyForecasts
+                                unitType={unitType}
+                                precision={precision}
+                                summaries={forecast.list}
+                            />
+                        </div>
+                    </>
                 );
             })
-            .then(() => this.clearCurrentDay(e.target));
+            .then(() => this.clearCurrentDay(e.target))
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     render() {
         const defaultFormValue = true ? '97330' : '';
+
+        onclick;
+        onClick;
 
         return (
             <div class='flex flex-col gap-4 lg:w-1/2 text-black m-4 lg:my-10'>

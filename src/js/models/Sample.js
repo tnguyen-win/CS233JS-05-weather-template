@@ -1,5 +1,3 @@
-import { toLocaleDateParts } from '@ocdla/date2';
-
 export default class Sample {
     constructor(timestamp) {
         this.dt = timestamp;
@@ -10,22 +8,6 @@ export default class Sample {
         this.pressure;
         this.description;
         this.icon;
-    }
-
-    toLocaleString(locale, offset) {
-        return toLocaleDateParts(this.dt, offset, locale);
-    }
-
-    toLocaleDate(locale, offset) {
-        return toLocaleDateParts(this.dt, offset, locale)[0];
-    }
-
-    toLocaleTime(locale, offset) {
-        return toLocaleDateParts(this.dt, offset, locale)[1];
-    }
-
-    toLocaleMonthAndDay(locale, offset) {
-        return toLocaleDateParts(this.dt, offset, locale)[2];
     }
 
     getTime() {

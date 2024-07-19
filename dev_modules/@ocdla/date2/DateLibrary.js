@@ -1,9 +1,5 @@
-export function getDate(unixTimestamp, timezoneOffset) {
-    return new Date((unixTimestamp - timezoneOffset) * 1000);
-}
-
-export function getWeekday(date) {
-    const dayNames = [
+export default class DateLibrary {
+    static dayNames = [
         'Sunday',
         'Monday',
         'Tuesday',
@@ -13,47 +9,54 @@ export function getWeekday(date) {
         'Saturday'
     ];
 
-    return dayNames[date.getDay()];
-}
+    // no static --> new DateLibrary();
 
-function toHours(num) {
-    return num / 3600;
-}
+    // static --> DateLibrary.getDate();
 
-function zeroPad(num) {
-    const sign = Math.sign(num);
-    const nextStep = Math.abs(num) < 10 ? '0' + Math.abs(num) : Math.abs(num);
-    const str = nextStep.toString();
+    static getDate(unixTimestamp, timezoneOffset) {
+        return new Date((unixTimestamp - timezoneOffset) * 1000);
+    }
 
-    return sign === -1 ? '-' + str : str;
-}
+    static getWeekday(date) {
+        return DateLibrary.dayNames[date.getDay()];
+    }
 
-function getOptions(timezoneOffsetInSeconds) {
-    const options = { hour: 'numeric' };
-    const hoursOffset = toHours(timezoneOffsetInSeconds);
-    const utcHours = zeroPad(hoursOffset);
+    static toHours(num) {
+        return num / 3600;
+    }
 
-    options.timeZone = utcHours;
+    static zeroPad(num) {
+        const sign = Math.sign(num);
+        const nextStep =
+            Math.abs(num) < 10 ? '0' + Math.abs(num) : Math.abs(num);
+        const str = nextStep.toString();
 
-    return options;
-}
+        return sign === -1 ? '-' + str : str;
+    }
 
-export function toLocaleDateParts(
-    unixTimestamp,
-    timezoneOffsetInSeconds,
-    locale
-) {
-    const date = new Date(unixTimestamp * 1000);
-    const options = getOptions(timezoneOffsetInSeconds);
-    let dateParts = [];
+    static getOptions(timezoneOffsetInSeconds) {
+        const options = { hour: 'numeric' };
+        const hoursOffset = DateLibrary.toHours(timezoneOffsetInSeconds);
+        const utcHours = DateLibrary.zeroPad(hoursOffset);
 
-    dateParts = [
-        date.toLocaleDateString(locale, options),
-        date.toLocaleTimeString(locale, options),
-        date.toLocaleString('default', { month: 'long' }) +
-            ' ' +
-            date.toLocaleString('default', { day: '2-digit' })
-    ];
+        options.timeZone = utcHours;
 
-    return dateParts;
+        return options;
+    }
+
+    static toLocaleDateParts(unixTimestamp, timezoneOffsetInSeconds, locale) {
+        const date = new Date(unixTimestamp * 1000);
+        const options = DateLibrary.getOptions(timezoneOffsetInSeconds);
+        let dateParts = [];
+
+        dateParts = [
+            date.toLocaleDateString(locale, options),
+            date.toLocaleTimeString(locale, options),
+            date.toLocaleString('default', { month: 'long' }) +
+                ' ' +
+                date.toLocaleString('default', { day: '2-digit' })
+        ];
+
+        return dateParts;
+    }
 }

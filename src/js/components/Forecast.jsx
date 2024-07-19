@@ -29,7 +29,7 @@ export default function Forecast({
                 unitType={unitType}
                 precision={precision}
                 samples={future}
-                offset={offset}
+                // wf={}
             />
             <DailyForecasts
                 unitType={unitType}

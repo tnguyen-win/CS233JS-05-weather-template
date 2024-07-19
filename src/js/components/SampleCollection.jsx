@@ -5,20 +5,14 @@ import Sample from './Sample';
 /* eslint-enable */
 import WeatherForecast from '../models/WeatherForecast';
 
-export default function SampleCollection({
-    unitType,
-    precision,
-    samples,
-    offset
-}) {
+export default function SampleCollection({ unitType, precision, samples, wf }) {
     const jsxSamples = samples.map(sample => {
         const formattedTemp = WeatherForecast.getTemperatureWithUnitType(
             sample.getTemp(),
             unitType,
             precision
         );
-        const locale = 'en-US';
-        const time = sample.toLocaleTime(locale, offset);
+        const time = wf.toLocaleTime(sample);
 
         return (
             <Sample
