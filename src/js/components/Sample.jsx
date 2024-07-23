@@ -1,5 +1,5 @@
 /** @jsx vNode */
-/* eslint-disable-next-line */
+/* eslint-disable-next-line no-unused-vars */
 import { vNode } from '@ocdla/view';
 
 export default function Sample({ icon, temp, time }) {

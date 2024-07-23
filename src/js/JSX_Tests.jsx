@@ -1,5 +1,5 @@
 /** @jsx vNode */
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 import { vNode } from '@ocdla/view';
 import JSX_Component from './components/JSX_Component';
 /* eslint-enable */

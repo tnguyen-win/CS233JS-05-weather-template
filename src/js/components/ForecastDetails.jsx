@@ -1,5 +1,5 @@
 /** @jsx vNode */
-/* eslint-disable-next-line */
+/* eslint-disable-next-line no-unused-vars */
 import { vNode } from '@ocdla/view';
 import { getWeekday } from '@ocdla/date2';
 
@@ -11,7 +11,14 @@ export default function ForecastDetails({ day, _name, forecast, unitType }) {
             </h1>
             <div class='weather'>
                 <p>
-                    <img src={`https://openweathermap.org/img/wn/${day.icon}.png`} alt='Day icon.' />
+                    <img
+                        src={
+                            'https://openweathermap.org/img/wn/' +
+                            day.icon +
+                            '.png'
+                        }
+                        alt='Day icon.'
+                    />
                     &nbsp;
                     {day.description}
                 </p>
@@ -19,30 +26,43 @@ export default function ForecastDetails({ day, _name, forecast, unitType }) {
             <div class='details'>
                 <div class='temperature-breakdown'>
                     <p>
-                        Morning Temperature: {forecast.getTemperatureWithUnitType(day.morningTemp, unitType)}
+                        Morning Temperature:{' '}
+                        {forecast.getTemperatureWithUnitType(
+                            day.morningTemp,
+                            unitType
+                        )}
                     </p>
                     <p>
-                        Day Temperature: {forecast.getTemperatureWithUnitType(day.dayTemp, unitType)}
+                        Day Temperature:{' '}
+                        {forecast.getTemperatureWithUnitType(
+                            day.dayTemp,
+                            unitType
+                        )}
                     </p>
                     <p>
-                        Evening Temperature: {forecast.getTemperatureWithUnitType(day.eveningTemp, unitType)}
+                        Evening Temperature:{' '}
+                        {forecast.getTemperatureWithUnitType(
+                            day.eveningTemp,
+                            unitType
+                        )}
                     </p>
                     <p>
-                        Night Temperature: {forecast.getTemperatureWithUnitType(day.nightTemp, unitType)}
+                        Night Temperature:{' '}
+                        {forecast.getTemperatureWithUnitType(
+                            day.nightTemp,
+                            unitType
+                        )}
                     </p>
                 </div>
                 <div class='misc-details'>
+                    <p>Atmospheric Pressure: {day.pressure} hPa</p>
+                    <p>Humidity: {day.humidity}%</p>
                     <p>
-                        Atmospheric Pressure: {day.pressure} hPa
-                    </p>
-                    <p>
-                        Humidity: {day.humidity}%
-                    </p>
-                    <p>
-                        Wind Speed: {forecast.getWindSpeedWithUnitType(day.wind, unitType)}
+                        Wind Speed:{' '}
+                        {forecast.getWindSpeedWithUnitType(day.wind, unitType)}
                     </p>
                 </div>
             </div>
         </>
     );
-};
+}

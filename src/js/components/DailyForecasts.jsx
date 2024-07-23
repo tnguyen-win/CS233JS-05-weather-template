@@ -1,5 +1,5 @@
 /** @jsx vNode */
-/* eslint-disable-next-line */
+/* eslint-disable no-unused-vars */
 import { vNode } from '@ocdla/view';
 import Summary from './Summary';
 /* eslint-enable */

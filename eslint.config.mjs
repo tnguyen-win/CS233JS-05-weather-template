@@ -10,7 +10,8 @@ export default [
                     jsx: true
                 }
             }
-        }
+        },
+        files: ['**/*.js', '**/*.jsx']
     },
     pluginJs.configs.recommended,
     {
@@ -20,6 +21,7 @@ export default [
             'space-before-function-paren': 'off',
             'arrow-parens': ['warn', 'as-needed'],
             'no-undef': 'off',
+            'no-constant-condition': 'off',
             'no-tabs': 'warn',
             'no-case-declarations': 'off',
             indent: [
@@ -32,6 +34,7 @@ export default [
             ],
             quotes: ['warn', 'single'],
             semi: ['warn', 'always'],
+            'no-useless-concat': 'warn',
             'no-array-constructor': 'warn',
             'no-unused-vars': 'warn',
             eqeqeq: 'warn',

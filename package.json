@@ -5,27 +5,24 @@
     "main": "index.html",
     "scripts": {
         "start": "webpack serve",
-        "lint": "eslint dev_modules src",
-        "lint-fix": "eslint --fix dev_modules src",
+        "lint": "eslint dev_modules/** src/**",
+        "lint-fix": "eslint --fix dev_modules/** src/**",
         "build": "webpack --config webpack.config.js",
         "git-reset": "git reset --soft HEAD~1",
         "git-force": "git push origin +jsx --force"
     },
     "dependencies": {
         "autoprefixer": "^10.4.19",
-        "bootstrap": "^5.2.1",
-        "bootstrap-less": "^3.3.8",
         "dotenv": "^16.4.5",
-        "eslint": "^9.5.0",
         "globals": "^15.6.0",
-        "less": "^4.1.1",
-        "postcss": "^8.4.38",
-        "tailwindcss": "^3.4.4"
+        "postcss": "^8.4.39",
+        "tailwindcss": "^3.4.6",
+        "toastr": "^2.1.4"
     },
     "devDependencies": {
         "@babel/cli": "^7.18.10",
-        "@babel/core": "^7.19.1",
-        "@babel/preset-env": "^7.19.1",
+        "@babel/core": "^7.19.6",
+        "@babel/preset-env": "^7.19.4",
         "@babel/preset-react": "^7.24.7",
         "@eslint/js": "^9.5.0",
         "@ocdla/component": "file:./dev_modules/@ocdla/component",
@@ -38,11 +35,12 @@
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.11.0",
         "dotenv-webpack": "^8.1.0",
-        "html-webpack-plugin": "^5.5.0",
+        "eslint": "^9.7.0",
+        "html-webpack-plugin": "^5.5.4",
         "postcss-loader": "^8.1.1",
         "style-loader": "^3.3.4",
         "webpack": "^5.92.1",
-        "webpack-cli": "^4.10.0",
+        "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^4.15.2"
     }
 }

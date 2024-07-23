@@ -4,8 +4,10 @@ ECHO ----------------
 ECHO 1 - [ development - npm run start ]
 ECHO 2 - [ development - npm run lint ]
 ECHO 3 - [ development - npm run lint-fix ]
-ECHO 7 - [ development - publish to NPMJS - lib-component ]
-ECHO 8 - [ development - publish to NPMJS - lib-date2  ]
+ECHO 6 - [ development - publish to NPMJS / lib-component ]
+ECHO 7 - [ development - publish to NPMJS / lib-date2  ]
+ECHO 8 - [ development - depcheck ]
+ECHO 9 - [ development - check and install NPM updates ]
 ECHO 10 - [ development - npm run git-reset ]
 ECHO 11 - [ development - npm run git-force ]
 ECHO ----------------
@@ -24,14 +26,23 @@ IF %input% == 3 (
     CALL npm run lint-fix
 )
 
-IF %input% == 8 (
+IF %input% == 6 (
     CALL CD "%CD%\dev_modules\@ocdla\component"
     CALL npm publish --access=public
 )
 
-IF %input% == 9 (
+IF %input% == 7 (
     CALL CD "%CD%\dev_modules\@ocdla\date2"
     CALL npm publish --access=public
+)
+
+IF %input% == 8 (
+    CALL depcheck
+)
+
+IF %input% == 9 (
+    CALL ncu -u -t patch
+    CALL npm install
 )
 
 IF %input% == 10 (

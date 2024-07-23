@@ -1,11 +1,13 @@
+import 'toastr/build/toastr.min.css';
+import toastr from 'toastr/build/toastr.min.js';
 /** @jsx vNode */
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 import { vNode, View } from '@ocdla/view';
-import Sample from './models/Sample';
 import CurrentWeather from './components/CurrentWeather';
 import HourlyForecasts from './components/HourlyForecasts';
 import DailyForecasts from './components/DailyForecasts';
 /* eslint-enable */
+import Sample from './models/Sample';
 import US_States from './data/us_states.json';
 import WeatherForecast from './models/WeatherForecast';
 
@@ -23,7 +25,27 @@ export default class App {
     constructor() {
         this.apiKey = App.API_KEY;
 
-        if (!this.apiKey) alert('API key was unspecified.');
+        setTimeout(() => {
+            if (this.apiKey) {
+                toastr.options.closeButton = true;
+                toastr.success('API key was found.');
+            } else {
+                toastr.options.timeOut = 0;
+                toastr.options.extendedTimeOut = 0;
+                toastr.error(
+                    `
+                    <span>
+                        API key is missing.
+                    </span>
+                    <br class='mb-1' />
+                    View README.md for more
+                    instructions.
+                    `
+                );
+            }
+        });
+
+        // setTimeout(() => toastr.error('Test.'));
     }
 
     getGeocodeUrl(zipCode, country) {
@@ -253,6 +275,7 @@ export default class App {
                 );
             })
             .then(() => this.clearCurrentDay(e.target))
+            /* eslint-disable-next-line no-console */
             .catch(e => console.log(e));
     }
 

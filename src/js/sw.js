@@ -40,7 +40,7 @@ async function registerServiceWorker() {
             //     default:
             //         break;
             // }
-            /* eslint-disable */
+            /* eslint-disable no-console */
             if (registration.installing)
                 console.log('Service worker installing.');
             else if (registration.waiting)
