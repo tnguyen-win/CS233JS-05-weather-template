@@ -10,5 +10,6 @@
     "arrowFunctionParentheses": "avoid",
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
-    "proseWrap": "preserve"
+    "proseWrap": "preserve",
+    "plugins": ["prettier-plugin-tailwindcss"]
 }

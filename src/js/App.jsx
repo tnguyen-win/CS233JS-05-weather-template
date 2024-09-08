@@ -30,6 +30,7 @@ export default class App {
                 toastr.options.closeButton = true;
                 toastr.success('API key was found.');
             } else {
+                toastr.options.closeButton = false;
                 toastr.options.timeOut = 0;
                 toastr.options.extendedTimeOut = 0;
                 toastr.error(
@@ -45,7 +46,36 @@ export default class App {
             }
         });
 
+        toastr.options.closeButton = true;
+
+        // toastr.error('Test.');
+        // this.test();
         // setTimeout(() => toastr.error('Test.'));
+
+        // setTimeout(() => {
+        //     toastr.options.onclick = () => console.log('abc');
+        //     toastr.info('<a href="https://google.com">Test.</a>');
+        // });
+    }
+
+    // test() {
+    //     toastr.error('Test.');
+    // }
+
+    // async checkStatus() {}
+
+    async getUrlsWithStatuses(url) {
+        const json = fetch(url).then(resp => {
+            const message = resp.status + ' | ' + resp.statusText;
+
+            resp.ok ? toastr.success(message) : toastr.error(message);
+
+            // toastr.onclick = () => 'abc';
+
+            return resp.json();
+        });
+
+        return await json;
     }
 
     getGeocodeUrl(zipCode, country) {
@@ -63,15 +93,10 @@ export default class App {
         );
     }
 
-    getCoordinates(zipCode, country) {
+    async getCoordinates(zipCode, country) {
         const geocodeUrl = this.getGeocodeUrl(zipCode, country);
-        const json = fetch(geocodeUrl).then(resp => resp.json());
 
-        // Inspect JSON to determine if the status code isn't okay.
-        // Use resp.ok !== true
-
-        return json;
-        // return await resp.json();
+        return await this.getUrlsWithStatuses(geocodeUrl);
     }
 
     getStateUrl(city) {
@@ -89,9 +114,8 @@ export default class App {
 
     async getState(city) {
         const stateUrl = this.getStateUrl(city);
-        const resp = await fetch(stateUrl);
 
-        return await resp.json();
+        return await this.getUrlsWithStatuses(stateUrl);
     }
 
     getCurrentWeatherUrl(lat, lon, unitType, lang) {
@@ -120,9 +144,8 @@ export default class App {
             unitType,
             lang
         );
-        const resp = await fetch(currentWeatherUrl);
 
-        return await resp.json();
+        return await this.getUrlsWithStatuses(currentWeatherUrl);
     }
 
     // addParam()
@@ -149,9 +172,8 @@ export default class App {
 
     async getForecast(lat, lon, unitType, mode) {
         const forecastUrl = this.getForecastUrl(lat, lon, unitType, mode);
-        const resp = await fetch(forecastUrl);
 
-        return await resp.json();
+        return await this.getUrlsWithStatuses(forecastUrl);
     }
 
     clearCurrentDay(e) {
@@ -192,7 +214,6 @@ export default class App {
         const lang = 'en';
         const mode = 'json';
         const precision = 0;
-
         this.getCoordinates(zipCode, locale)
             .then(loc => {
                 // .then(async () => {
@@ -275,8 +296,19 @@ export default class App {
                 );
             })
             .then(() => this.clearCurrentDay(e.target))
-            /* eslint-disable-next-line no-console */
-            .catch(e => console.log(e));
+            .catch(e => {
+                /* eslint-disable-next-line no-console */
+                console.log(e);
+
+                // const message =
+                //     getWeather.status + ' | ' + getWeather.statusText;
+
+                // getWeather.ok ? toastr.success(message) : toastr.error(message);
+
+                // console.log(e.response);
+            });
+
+        // console.log(getWeather);
     }
 
     render() {
