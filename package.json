@@ -8,6 +8,7 @@
         "lint": "eslint dev_modules/** src/**",
         "lint-fix": "eslint --fix dev_modules/** src/**",
         "build": "webpack --config webpack.config.js",
+        "serve": "serve ./dist -p 80 -n -s",
         "git-reset": "git reset --soft HEAD~1",
         "git-force": "git push origin +jsx --force"
     },
@@ -36,6 +37,7 @@
         "html-webpack-plugin": "^5.5.4",
         "postcss-loader": "^8.1.1",
         "prettier-plugin-tailwindcss": "^0.6.5",
+        "serve": "^14.2.3",
         "style-loader": "^3.3.4",
         "webpack": "^5.92.1",
         "webpack-cli": "^5.1.4",
