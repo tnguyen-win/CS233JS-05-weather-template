@@ -4,6 +4,11 @@ JavaScript library with date-related helper functions.
 
 ## Changelog
 
+### 0.1.3
+
+-   Converted file to be a class.
+-   Misc code cleanup / improvements.
+
 #### 0.1.2
 
 -   Tweaked the way data is returned.

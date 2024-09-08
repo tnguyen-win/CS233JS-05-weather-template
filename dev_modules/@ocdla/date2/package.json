@@ -3,9 +3,9 @@
     "homepage": "https://ocdla.org",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ocdla/date2.git"
+        "url": "git+https://github.com/tnguyen-win/CS233JS-05-weather-template/tree/jsx/dev_modules/%40ocdla/date2"
     },
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "JavaScript library with date-related helper functions.",
     "author": "Trung Nguyen",
     "license": "ISC",
