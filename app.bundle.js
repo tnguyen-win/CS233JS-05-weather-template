@@ -458,7 +458,7 @@ _defineProperty(App, "GEOCODE_ENDPOINT", 'geo/' + _App.GEOCODE_VERSION + '/zip')
 _defineProperty(App, "STATE_ENDPOINT", 'geo/' + _App.GEOCODE_VERSION + '/direct');
 _defineProperty(App, "CURRENT_WEATHER_ENDPOINT", 'data/' + _App.FORECAST_VERSION + '/weather');
 _defineProperty(App, "FORECAST_ENDPOINT", 'data/' + _App.FORECAST_VERSION + '/forecast');
-_defineProperty(App, "API_KEY", "MISSING_ENV_VAR".API_KEY);
+_defineProperty(App, "API_KEY", "436318b3f99b10952c06599c1755c123");
 
 
 /***/ }),
