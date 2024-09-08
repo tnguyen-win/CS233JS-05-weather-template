@@ -87,6 +87,7 @@ module.exports = {
                 //     from: path.resolve(__dirname, 'src/images'),
                 //     to: path.resolve(__dirname, 'dist/images')
                 // }
+                'src/.nojekyll',
                 { from: './src/js/sw.js', to: './sw.js' }
             ]
         })
